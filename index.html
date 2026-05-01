@@ -11,7 +11,7 @@
 <style>
 body{margin:0;font-family:Poppins;background:#0f172a;color:white;}
 .hero{text-align:center;padding:80px;background:linear-gradient(135deg,#4c1d95,#1e293b);}
-.btn{padding:10px 18px;margin:10px;border:none;border-radius:8px;cursor:pointer;}
+.btn{padding:12px 20px;margin:10px;border-radius:8px;text-decoration:none;display:inline-block}
 .btn1{background:#7c3aed;color:white;}
 .btn2{background:#22c55e;color:white;}
 
@@ -22,17 +22,26 @@ body{margin:0;font-family:Poppins;background:#0f172a;color:white;}
 
 .section{padding:50px;text-align:center;}
 .cards{display:flex;flex-wrap:wrap;justify-content:center;}
-.card{background:white;color:black;padding:15px;margin:10px;border-radius:10px;width:260px;transition:.3s;}
+
+.card{
+background:white;color:black;padding:15px;margin:10px;border-radius:10px;width:260px;
+cursor:pointer;transition:.3s;
+}
 .card:hover{transform:translateY(-8px);}
 
-input,select{
-  padding:10px;
-  margin:10px;
-  border-radius:6px;
-  border:none;
-}
+input,select{padding:10px;margin:10px;border-radius:6px;border:none;}
 
 .footer{background:black;text-align:center;padding:20px;}
+
+/* POPUP */
+.popup{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;
+}
+.popup-content{
+background:white;color:black;padding:20px;border-radius:10px;width:90%;max-width:400px;
+}
+.close{float:right;cursor:pointer;font-size:18px;}
 </style>
 </head>
 
@@ -61,11 +70,11 @@ input,select{
 </div>
 </div>
 
-<!-- SEARCH -->
+<!-- DIRECTORY -->
 <div class="section">
 <h2>Healthcare Directory</h2>
 
-<input type="text" id="search" placeholder="Search doctor, lab...">
+<input type="text" id="search" placeholder="Search...">
 <select id="filter">
 <option value="all">All</option>
 <option value="doctor">Doctors</option>
@@ -90,26 +99,86 @@ input,select{
 © Naewt Group
 </div>
 
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-content">
+<span class="close" onclick="closePopup()">❌</span>
+<h3 id="pname"></h3>
+<p id="pspec"></p>
+<p id="prating"></p>
+
+<input id="reviewInput" placeholder="Write review...">
+<button onclick="addReview()">Submit</button>
+
+<div id="reviews"></div>
+</div>
+</div>
+
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>
 
 <script>
-const data = [
-{name:"Dr. Imran Khan",type:"doctor",spec:"Cardiologist ❤️",rating:"4.6"},
-{name:"Dr. Sana Ali",type:"doctor",spec:"Child Specialist 👶",rating:"4.4"},
-{name:"City Lab",type:"lab",spec:"Blood & Full Body Test",rating:"4.3"},
-{name:"Health Lab Pro",type:"lab",spec:"Advanced Diagnostics",rating:"4.5"},
-{name:"Care Pharmacy",type:"pharmacy",spec:"24x7 Medicine",rating:"4.7"}
+const data=[
+{name:"Dr. Imran Khan",type:"doctor",spec:"Cardiologist ❤️",rating:4.6,reviews:["Good doctor","Very helpful"]},
+{name:"Dr. Sana Ali",type:"doctor",spec:"Child Specialist 👶",rating:4.4,reviews:["Nice behavior"]},
+{name:"City Lab",type:"lab",spec:"Full body test",rating:4.3,reviews:["Fast service"]},
+{name:"Care Pharmacy",type:"pharmacy",spec:"24x7 medicine",rating:4.7,reviews:["Available always"]}
 ];
 
+let currentIndex=null;
+
 function show(){
-let search = document.getElementById("search").value.toLowerCase();
-let filter = document.getElementById("filter").value;
+let search=document.getElementById("search").value.toLowerCase();
+let filter=document.getElementById("filter").value;
 let html="";
 
-data.forEach(item=>{
-if((filter==="all"||item.type===filter) && item.name.toLowerCase().includes(search)){
+data.forEach((item,i)=>{
+if((filter==="all"||item.type===filter)&&item.name.toLowerCase().includes(search)){
 html+=`
+<div class="card" onclick="openPopup(${i})">
+<b>${item.name}</b><br>
+${item.spec}<br>
+⭐ ${item.rating}
+</div>`;
+}
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+function openPopup(i){
+currentIndex=i;
+let item=data[i];
+document.getElementById("popup").style.display="flex";
+document.getElementById("pname").innerText=item.name;
+document.getElementById("pspec").innerText=item.spec;
+document.getElementById("prating").innerText="⭐ "+item.rating;
+
+let revHTML="";
+item.reviews.forEach(r=>revHTML+=`<p>• ${r}</p>`);
+document.getElementById("reviews").innerHTML=revHTML;
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+function addReview(){
+let text=document.getElementById("reviewInput").value;
+if(text){
+data[currentIndex].reviews.push(text);
+openPopup(currentIndex);
+}
+}
+
+document.getElementById("search").onkeyup=show;
+document.getElementById("filter").onchange=show;
+
+show();
+</script>
+
+</body>
+</html>html+=`
 <div class="card">
 <b>${item.name}</b><br>
 ${item.spec}<br>
