@@ -1,219 +1,803 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Naewt Group</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Naewt Group | Smart Healthcare & Workforce Hub</title>
+  <meta name="description" content="Naewt Group connects skilled & unskilled workers with FabricPro, and offers a trusted healthcare directory with real ratings & reviews.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#1e3c72,#2a5298);
-  color:white;
-  text-align:center;
-}
+    body {
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgb(15, 35, 70), rgb(5, 20, 45));
+      color: #f0f4ff;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
 
-.hero{padding:60px 20px;}
+    /* Glassmorphic container style */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-.btn{
-  padding:12px 20px;
-  margin:10px;
-  border:none;
-  border-radius:8px;
-  color:white;
-  font-size:16px;
-}
-.btn1{background:#7b2ff7;}
-.btn2{background:#2ecc71;}
+    /* Hero section */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      backdrop-filter: blur(2px);
+    }
 
-.section{padding:40px 20px;}
+    .hero h1 {
+      font-size: 3.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFF, #b6e1fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
 
-.card{
-  background:white;
-  color:black;
-  padding:15px;
-  margin:10px auto;
-  border-radius:12px;
-  width:90%;
-  max-width:400px;
-  cursor:pointer;
-}
+    .hero p {
+      font-size: 1.25rem;
+      color: #cfdfed;
+      max-width: 650px;
+      margin: 0 auto 2rem;
+    }
 
-input,select{
-  padding:10px;
-  margin:5px;
-  border-radius:6px;
-  border:none;
-}
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
 
-.footer{
-  background:black;
-  padding:20px;
-}
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 48px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(4px);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
 
-.popup{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.8);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
+    .btn-primary {
+      background: #6c3eff;
+      box-shadow: 0 8px 20px rgba(108, 62, 255, 0.3);
+      border: none;
+    }
 
-.popup-box{
-  background:white;
-  color:black;
-  padding:20px;
-  border-radius:10px;
-  width:90%;
-  max-width:400px;
-  position:relative;
-}
+    .btn-primary:hover {
+      background: #5a2be0;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px -8px rgba(108, 62, 255, 0.5);
+    }
 
-.close-btn{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:red;
-  color:white;
-  border:none;
-  padding:5px 10px;
-  border-radius:5px;
-}
-</style>
+    .btn-secondary {
+      background: #1fd685;
+      border: none;
+      box-shadow: 0 6px 14px rgba(31, 214, 133, 0.25);
+    }
+
+    .btn-secondary:hover {
+      background: #16bc74;
+      transform: translateY(-3px);
+    }
+
+    /* Cards & sections */
+    .section {
+      padding: 48px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    /* Impact grid */
+    .impact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      border-radius: 32px;
+      padding: 28px 20px;
+      width: 200px;
+      text-align: center;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .stat-emoji {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    /* search & filter area */
+    .search-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .search-input, .filter-select {
+      padding: 14px 20px;
+      border-radius: 60px;
+      border: none;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(4px);
+      color: white;
+      font-size: 1rem;
+      width: 260px;
+      outline: none;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .search-input:focus, .filter-select:focus {
+      background: rgba(255,255,255,0.2);
+      border-color: #6c3eff;
+    }
+
+    .filter-select option {
+      background: #1a2a4f;
+      color: white;
+    }
+
+    /* directory cards grid */
+    .directory-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .provider-card {
+      background: white;
+      color: #111;
+      width: 300px;
+      border-radius: 28px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s ease-in-out;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      text-align: left;
+    }
+
+    .provider-card:hover {
+      transform: scale(1.02) translateY(-6px);
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-spec {
+      color: #4b5563;
+      font-size: 0.85rem;
+      margin: 8px 0;
+    }
+
+    .stars {
+      color: #f5b042;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+    }
+
+    .review-count {
+      font-size: 0.75rem;
+      color: #6c757d;
+      margin-left: 6px;
+    }
+
+    .empty-msg {
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+      padding: 40px;
+      border-radius: 48px;
+      width: 100%;
+    }
+
+    /* Popup modern */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-card {
+      background: #fff;
+      color: #1e293b;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 36px;
+      padding: 28px 24px;
+      position: relative;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 40px 60px rgba(0,0,0,0.4);
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      background: #ef4444;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .close-popup:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+
+    .review-item {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-left: 4px solid #6c3eff;
+    }
+
+    .review-text {
+      flex: 1;
+      font-size: 0.9rem;
+    }
+
+    .delete-review {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #a0aec0;
+      transition: 0.2s;
+      padding: 4px 8px;
+      border-radius: 30px;
+    }
+
+    .delete-review:hover {
+      color: #e53e3e;
+      background: #fff0f0;
+    }
+
+    .rating-stars-static {
+      color: #f5b042;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+    }
+
+    .add-review-area {
+      margin-top: 24px;
+      background: #f1f5f9;
+      border-radius: 24px;
+      padding: 16px;
+    }
+
+    .rating-input-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 5px;
+      direction: ltr;
+    }
+
+    .star-btn {
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #cbd5e1;
+      transition: 0.1s;
+    }
+
+    .star-btn.active {
+      color: #fbbf24;
+    }
+
+    textarea {
+      width: 100%;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .submit-review {
+      background: #6c3eff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      margin-top: 12px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 32px;
+      background: #020617;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #8ba0bc;
+    }
+
+    @media (max-width: 680px) {
+      .hero h1 { font-size: 2.2rem; }
+      .container { padding: 0 16px; }
+      .stat-card { width: 150px; }
+      .provider-card { width: 100%; max-width: 340px; }
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="hero">
-  <h1>Naewt Group</h1>
-  <p>Empowering Skilled & Unskilled People with FabricPro</p>
-
-  <a href="https://fab.naewtgroup.com"><button class="btn btn1">Open FabricPro</button></a>
-  <a href="https://trust.naewtgroup.com"><button class="btn btn2">Explore Trust</button></a>
+  <div class="container">
+    <h1>Naewt Group</h1>
+    <p>Empowering Skilled & Unskilled Communities with FabricPro & Trust Ecosystem</p>
+    <div class="btn-group">
+      <a href="https://fab.naewtgroup.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">⚡ Open FabricPro</a>
+      <a href="https://trust.naewtgroup.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">🔒 Explore Trust</a>
+    </div>
+  </div>
 </div>
 
-<div class="section">
-  <h2>Healthcare Directory</h2>
+<div class="container">
+  <!-- Healthcare Directory Section -->
+  <div class="section">
+    <h2 class="section-title">🏥 Smart Healthcare Directory</h2>
+    <div class="search-panel">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search doctors, labs..." autocomplete="off">
+      <select id="filterSelect" class="filter-select">
+        <option value="all">All Services</option>
+        <option value="doctor">👨‍⚕️ Doctors</option>
+        <option value="lab">🧪 Labs & Diagnostics</option>
+      </select>
+    </div>
+    <div id="directoryList" class="directory-grid"></div>
+  </div>
 
-  <input type="text" id="search" placeholder="Search doctor, lab...">
-  <select id="filter">
-    <option value="all">All</option>
-    <option value="doctor">Doctors</option>
-    <option value="lab">Labs</option>
-  </select>
-
-  <div id="list"></div>
+  <!-- Our Impact Section -->
+  <div class="section">
+    <h2 class="section-title">📊 Our Impact</h2>
+    <div class="impact-grid">
+      <div class="stat-card"><div class="stat-emoji">👷‍♂️</div><div class="stat-number" data-target="1280">0+</div><div>Skilled Workers</div></div>
+      <div class="stat-card"><div class="stat-emoji">💰</div><div class="stat-number" data-target="2850000">0₹</div><div>Total Earnings</div></div>
+      <div class="stat-card"><div class="stat-emoji">🤝</div><div class="stat-number" data-target="384">0+</div><div>Communities Helped</div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section">
-  <h2>Our Impact</h2>
+<footer class="footer">
+  © Naewt Group — Bridging talent & trusted healthcare | v2.0
+</footer>
 
-  <div class="card">👷 Workers <br><b>1200+</b></div>
-  <div class="card">💰 Earnings <br><b>₹25L+</b></div>
-  <div class="card">🤝 Helped <br><b>300+</b></div>
-</div>
-
-<div class="footer">
-  © Naewt Group
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-box">
-
-    <button class="close-btn" onclick="closePopup()">X</button>
-
-    <h3 id="pname"></h3>
-    <p id="pspec"></p>
-    <p id="prating"></p>
-
-    <div id="reviews"></div>
-
-    <input type="text" id="reviewInput" placeholder="Write review...">
-    <button onclick="addReview()">Submit</button>
-
+<!-- POPUP OVERLAY -->
+<div id="popupModal" class="popup">
+  <div class="popup-card">
+    <button class="close-popup" id="closePopupBtn">✕</button>
+    <h2 id="popupName" style="margin-top: 0;">Name</h2>
+    <p id="popupSpec" style="color: #4b5563;"></p>
+    <div id="popupRatingArea" style="margin: 8px 0 12px;"></div>
+    <h4>📝 Community Reviews</h4>
+    <div id="popupReviewsList" style="max-height: 280px; overflow-y: auto; margin: 12px 0;"></div>
+    
+    <div class="add-review-area">
+      <strong>✍️ Leave your rating & review</strong>
+      <div class="rating-input-group">
+        <span>Your rating:</span>
+        <div id="starSelector" class="star-rating">
+          <!-- dynamic stars 1-5 -->
+        </div>
+      </div>
+      <textarea id="reviewTextArea" rows="2" placeholder="Share your experience... (min 3 characters)"></textarea>
+      <button id="submitReviewBtn" class="submit-review">✅ Submit Review</button>
+    </div>
   </div>
 </div>
 
 <script>
-
-let data = [
-  {name:"Dr Khan", type:"doctor", spec:"Cardiologist ❤️", rating:4.6, reviews:["Good doctor"]},
-  {name:"City Lab", type:"lab", spec:"Blood Test & Checkup", rating:4.3, reviews:["Fast service"]},
-  {name:"Dr Sharma", type:"doctor", spec:"Dentist 🦷", rating:4.8, reviews:["Very friendly"]}
-];
-
-// LOAD saved data
-let saved = localStorage.getItem("reviewsData");
-if(saved){
-  data = JSON.parse(saved);
-}
-
-let currentIndex = 0;
-
-function show(){
-  let html="";
-  let search=document.getElementById("search").value.toLowerCase();
-  let filter=document.getElementById("filter").value;
-
-  data.forEach((item,i)=>{
-    if((filter==="all" || item.type===filter) &&
-       item.name.toLowerCase().includes(search)){
-
-      html += `
-      <div class="card" onclick="openPopup(${i})">
-        <b>${item.name}</b><br>
-        ${item.spec}<br>
-        ⭐ ${item.rating}
-      </div>`;
+  // ---------- DATA MODEL with rating objects ----------
+  let providers = [
+    {
+      name: "Dr. Ayesha Khan",
+      type: "doctor",
+      spec: "Cardiologist | Heart Specialist ❤️",
+      reviews: [
+        { text: "Very attentive and accurate diagnosis", rating: 5 },
+        { text: "Helpful staff and modern clinic", rating: 4.5 }
+      ]
+    },
+    {
+      name: "City Diagnostic Lab",
+      type: "lab",
+      spec: "Blood tests, MRI, Full body checkup",
+      reviews: [
+        { text: "Fast reports and affordable price", rating: 4.5 },
+        { text: "Clean and professional", rating: 4 }
+      ]
+    },
+    {
+      name: "Dr. Rajat Sharma",
+      type: "doctor",
+      spec: "Dentist & Orthodontist 🦷",
+      reviews: [
+        { text: "Painless extraction, amazing care", rating: 5 },
+        { text: "Friendly environment, very clean", rating: 5 }
+      ]
     }
-  });
+  ];
 
-  document.getElementById("list").innerHTML = html;
-}
-
-function openPopup(i){
-  currentIndex = i;
-  let item = data[i];
-
-  document.getElementById("popup").style.display="flex";
-  document.getElementById("pname").innerText=item.name;
-  document.getElementById("pspec").innerText=item.spec;
-  document.getElementById("prating").innerText="⭐ "+item.rating;
-
-  let revHTML="";
-  item.reviews.forEach(r=>{
-    revHTML += `<p>• ${r}</p>`;
-  });
-
-  document.getElementById("reviews").innerHTML=revHTML;
-}
-
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-}
-
-function addReview(){
-  let text = document.getElementById("reviewInput").value;
-
-  if(text){
-    data[currentIndex].reviews.push(text);
-
-    localStorage.setItem("reviewsData", JSON.stringify(data));
-
-    document.getElementById("reviewInput").value="";
-    openPopup(currentIndex);
+  // Helper: compute average rating from reviews array
+  function computeAvgRating(reviews) {
+    if (!reviews.length) return 0;
+    let sum = 0;
+    for (let r of reviews) {
+      sum += r.rating;
+    }
+    let avg = sum / reviews.length;
+    return Math.round(avg * 10) / 10;
   }
-}
 
-document.getElementById("search").onkeyup = show;
-document.getElementById("filter").onchange = show;
+  // render stars (static) with numeric
+  function renderStarsHtml(rating) {
+    const fullStars = Math.floor(rating);
+    const half = (rating % 1) >= 0.5 ? 1 : 0;
+    let stars = '';
+    for (let i = 0; i < fullStars; i++) stars += '★';
+    if (half) stars += '½';
+    for (let i = 0; i < 5 - fullStars - half; i++) stars += '☆';
+    return `<span class="stars">${stars}</span> <span style="font-size:0.85rem;">(${rating})</span>`;
+  }
 
-show();
+  // escape HTML to prevent injection
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
 
+  // Save to localStorage
+  function saveToLocal() {
+    localStorage.setItem("naewt_health_data_v2", JSON.stringify(providers));
+  }
+
+  // Migration / Load
+  function loadFromLocal() {
+    const raw = localStorage.getItem("naewt_health_data_v2");
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) {
+        // validate structure (every provider has reviews array of objects)
+        let valid = true;
+        for (let p of parsed) {
+          if (!p.reviews || !Array.isArray(p.reviews)) valid = false;
+          else {
+            for (let rev of p.reviews) {
+              if (typeof rev !== 'object' || rev.text === undefined || rev.rating === undefined) valid = false;
+            }
+          }
+        }
+        if (valid) {
+          providers = parsed;
+        } else {
+          console.warn("Legacy data mismatch, using fresh");
+        }
+      }
+    } catch(e) { console.warn("invalid storage"); }
+  }
+
+  // Re-render directory list
+  let currentFilter = "all";
+  let currentSearch = "";
+
+  function renderDirectory() {
+    const container = document.getElementById("directoryList");
+    if (!container) return;
+    const searchTerm = currentSearch.toLowerCase();
+    let filtered = providers.filter(p => {
+      const matchesType = currentFilter === "all" || p.type === currentFilter;
+      const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.spec.toLowerCase().includes(searchTerm);
+      return matchesType && matchesSearch;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-msg">✨ No matching providers. Try different keyword.</div>`;
+      return;
+    }
+
+    let html = "";
+    filtered.forEach((provider, idx) => {
+      const avgRating = computeAvgRating(provider.reviews);
+      const starHtml = renderStarsHtml(avgRating);
+      html += `
+        <div class="provider-card" data-provider-index="${providers.indexOf(provider)}">
+          <div class="card-name">${escapeHtml(provider.name)}</div>
+          <div class="card-spec">${escapeHtml(provider.spec)}</div>
+          <div>${starHtml} <span class="review-count">(${provider.reviews.length} reviews)</span></div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+
+    // attach click events to cards
+    document.querySelectorAll('.provider-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const idxAttr = card.getAttribute('data-provider-index');
+        if (idxAttr !== null) openPopup(parseInt(idxAttr));
+      });
+    });
+  }
+
+  let activePopupIndex = 0;
+  let currentStarValue = 5;
+
+  function buildStarSelector(containerEl, initialRating = 5) {
+    containerEl.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const starBtn = document.createElement('button');
+      starBtn.innerText = '★';
+      starBtn.classList.add('star-btn');
+      if (i <= initialRating) starBtn.classList.add('active');
+      starBtn.style.fontSize = '1.8rem';
+      starBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        currentStarValue = i;
+        updateStarUI(containerEl, i);
+      });
+      containerEl.appendChild(starBtn);
+    }
+  }
+
+  function updateStarUI(container, rating) {
+    const btns = container.querySelectorAll('.star-btn');
+    btns.forEach((btn, idx) => {
+      if (idx < rating) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  }
+
+  function openPopup(index) {
+    activePopupIndex = index;
+    const provider = providers[index];
+    if (!provider) return;
+    const avg = computeAvgRating(provider.reviews);
+    document.getElementById("popupName").innerText = provider.name;
+    document.getElementById("popupSpec").innerHTML = escapeHtml(provider.spec);
+    document.getElementById("popupRatingArea").innerHTML = `<div style="display:flex; align-items:center; gap:6px;">⭐ Average rating: <strong>${avg}</strong> ${renderStarsHtml(avg)}</div>`;
+    
+    // render reviews list with delete option
+    const reviewsContainer = document.getElementById("popupReviewsList");
+    reviewsContainer.innerHTML = "";
+    if (provider.reviews.length === 0) {
+      reviewsContainer.innerHTML = "<p style='color:gray;'>✨ No reviews yet. Be the first! ✨</p>";
+    } else {
+      provider.reviews.forEach((rev, revIdx) => {
+        const reviewDiv = document.createElement('div');
+        reviewDiv.className = "review-item";
+        const starRatingSmall = '★'.repeat(Math.floor(rev.rating)) + '☆'.repeat(5 - Math.floor(rev.rating));
+        reviewDiv.innerHTML = `
+          <div class="review-text">
+            <div><span style="color:#f5b042;">${starRatingSmall}</span> <span style="font-size:0.7rem;">(${rev.rating})</span></div>
+            <div>“${escapeHtml(rev.text)}”</div>
+          </div>
+          <button class="delete-review" data-review-index="${revIdx}" aria-label="Delete review">🗑️</button>
+        `;
+        reviewsContainer.appendChild(reviewDiv);
+      });
+      // attach delete events
+      document.querySelectorAll('.delete-review').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const revIdx = parseInt(btn.getAttribute('data-review-index'));
+          deleteReview(activePopupIndex, revIdx);
+        });
+      });
+    }
+
+    // Reset star selector & textarea
+    const starContainer = document.getElementById("starSelector");
+    currentStarValue = 5;
+    buildStarSelector(starContainer, 5);
+    document.getElementById("reviewTextArea").value = "";
+    
+    document.getElementById("popupModal").style.display = "flex";
+  }
+
+  function deleteReview(providerIdx, reviewIdx) {
+    const provider = providers[providerIdx];
+    if (provider && provider.reviews[reviewIdx]) {
+      provider.reviews.splice(reviewIdx, 1);
+      saveToLocal();
+      renderDirectory();
+      // refresh popup content without closing
+      openPopup(providerIdx);
+    }
+  }
+
+  function addReviewAndRating() {
+    const reviewText = document.getElementById("reviewTextArea").value.trim();
+    if (reviewText.length < 2) {
+      alert("Please write a meaningful review (min 2 characters).");
+      return;
+    }
+    const rating = currentStarValue;
+    if (rating < 1 || rating > 5) {
+      alert("Select a rating between 1-5 stars.");
+      return;
+    }
+    const provider = providers[activePopupIndex];
+    if (!provider) return;
+    provider.reviews.push({ text: reviewText, rating: rating });
+    saveToLocal();
+    renderDirectory();
+    // refresh popup with fresh data
+    openPopup(activePopupIndex);
+  }
+
+  function closePopup() {
+    document.getElementById("popupModal").style.display = "none";
+  }
+
+  // Animate stats on view
+  function animateNumbers() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(el => {
+      const target = parseInt(el.getAttribute('data-target'));
+      if (isNaN(target)) return;
+      let current = 0;
+      const step = Math.ceil(target / 50);
+      const update = () => {
+        current += step;
+        if (current >= target) {
+          if (target >= 1000) el.innerText = (target / 1000).toFixed(1) + (target >= 10000 ? 'L' : 'L+');
+          else if (target >= 100000) el.innerText = (target / 100000).toFixed(1) + 'L';
+          else el.innerText = target + (el.innerText.includes('₹') ? '₹' : '+');
+          if (el.innerText.includes('₹') && target >= 1000) el.innerText = '₹' + (target / 100000).toFixed(1) + 'L';
+          else if (el.innerText.includes('₹') && target < 1000) el.innerText = '₹' + target;
+          else if (!el.innerText.includes('₹') && target >= 1000) el.innerText = (target / 1000).toFixed(1) + 'k+';
+          else el.innerText = target + '+';
+          return;
+        }
+        if (target >= 2000000) el.innerText = '₹' + (current / 100000).toFixed(1) + 'L';
+        else if (target >= 1000 && !el.innerText.includes('₹')) el.innerText = current + '+';
+        else if (el.innerText.includes('₹')) el.innerText = '₹' + current;
+        else el.innerText = current + '+';
+        requestAnimationFrame(() => setTimeout(update, 18));
+      };
+      update();
+    });
+  }
+
+  // Event listeners & init
+  function setupEventListeners() {
+    const searchInput = document.getElementById("searchInput");
+    const filterSelect = document.getElementById("filterSelect");
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        currentSearch = e.target.value;
+        renderDirectory();
+      });
+    }
+    if (filterSelect) {
+      filterSelect.addEventListener("change", (e) => {
+        currentFilter = e.target.value;
+        renderDirectory();
+      });
+    }
+    const closeBtn = document.getElementById("closePopupBtn");
+    if (closeBtn) closeBtn.addEventListener("click", closePopup);
+    const submitBtn = document.getElementById("submitReviewBtn");
+    if (submitBtn) submitBtn.addEventListener("click", addReviewAndRating);
+    
+    // close popup when clicking outside content
+    const modal = document.getElementById("popupModal");
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closePopup();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.style.display === "flex") closePopup();
+    });
+  }
+
+  function init() {
+    loadFromLocal();
+    // ensure all reviews have rating field (migration safety)
+    providers.forEach(p => {
+      if (p.reviews && p.reviews.length > 0 && typeof p.reviews[0] === 'string') {
+        // legacy conversion
+        p.reviews = p.reviews.map(txt => ({ text: txt, rating: 4.5 }));
+        saveToLocal();
+      } else if (p.reviews && p.reviews.length && p.reviews[0] && typeof p.reviews[0].rating === 'undefined') {
+        p.reviews = p.reviews.map(r => ({ text: r.text || 'ok', rating: r.rating || 4.2 }));
+        saveToLocal();
+      }
+    });
+    renderDirectory();
+    setupEventListeners();
+    animateNumbers();
+  }
+  
+  init();
 </script>
-
 </body>
 </html>
