@@ -1,55 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Naewt Group</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin:0;
-      font-family: Arial;
-      background: linear-gradient(135deg,#1a1a2e,#16213e);
-      color:white;
-      text-align:center;
-    }
-    .hero{
-      padding:60px 20px;
-    }
-    h1{
-      font-size:32px;
-    }
-    .btn{
-      display:inline-block;
-      padding:12px 20px;
-      margin:10px;
-      background:#7b2cbf;
-      border-radius:8px;
-    }
-    .section{
-      background:white;
-      color:black;
-      padding:40px 20px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naewt Group</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+  background:#0f172a;
+  color:white;
+}
+
+/* HERO */
+.hero {
+  text-align:center;
+  padding:80px 20px;
+  background: linear-gradient(135deg,#4c1d95,#1e293b);
+}
+
+.hero h1 {
+  font-size:36px;
+}
+
+.hero p {
+  font-size:18px;
+  opacity:0.8;
+}
+
+.btn {
+  margin:10px;
+  padding:12px 20px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.btn-primary {
+  background:#7c3aed;
+  color:white;
+}
+
+.btn-secondary {
+  background:#22c55e;
+  color:white;
+}
+
+/* SPLIT */
+.split {
+  display:flex;
+  flex-wrap:wrap;
+}
+
+.box {
+  flex:1;
+  padding:40px;
+  min-width:300px;
+}
+
+.trust {
+  background:#f0fdf4;
+  color:black;
+}
+
+.fabric {
+  background:#1e293b;
+}
+
+/* CARD */
+.card {
+  background:white;
+  color:black;
+  padding:15px;
+  margin:10px;
+  border-radius:10px;
+}
+
+/* SECTION */
+.section {
+  padding:50px 20px;
+  text-align:center;
+}
+
+/* FOOTER */
+.footer {
+  text-align:center;
+  padding:20px;
+  background:black;
+}
+</style>
 </head>
 
 <body>
 
+<!-- HERO -->
 <div class="hero">
   <h1>Naewt Group</h1>
-  <p>Building Solutions. Transforming Lives.</p>
+  <p>Empowering Work. Supporting Lives.</p>
 
-  <div class="btn">FabricPro</div>
-  <div class="btn">Naewt Trust</div>
+  <button class="btn btn-primary">Download FabricPro</button>
+  <button class="btn btn-secondary">Explore Trust</button>
 </div>
 
-<div class="section">
-  <h2>FabricPro</h2>
-  <p>Smart job work and payment system.</p>
+<!-- SPLIT SECTION -->
+<div class="split">
+
+  <!-- TRUST -->
+  <div class="box trust">
+    <h2>Naewt Trust</h2>
+    <p><b>Every Smile Matters</b></p>
+    <p>Education, healthcare, and welfare support for those in need.</p>
+    <button class="btn btn-secondary">Visit Trust</button>
+  </div>
+
+  <!-- FABRICPRO -->
+  <div class="box fabric">
+    <h2>FabricPro</h2>
+    <p>Smart job work & payment system for workers and factories.</p>
+    <button class="btn btn-primary">Open FabricPro</button>
+  </div>
+
 </div>
 
+<!-- HEALTHCARE -->
 <div class="section">
-  <h2>Naewt Trust</h2>
-  <p>Helping people with education and support.</p>
+  <h2>Healthcare Directory</h2>
+
+  <div class="card">
+    <b>Dr. Imran Khan</b><br>
+    Cardiologist ❤️<br>
+    ⭐ 4.6 (128 reviews)
+  </div>
+
+  <div class="card">
+    <b>City Lab</b><br>
+    Blood Test & Full Body Checkup<br>
+    ⭐ 4.3 (89 reviews)
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>© Naewt Group</p>
 </div>
 
 </body>
