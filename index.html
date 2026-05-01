@@ -6,99 +6,33 @@
 <title>Naewt Group</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-<!-- AOS Animation -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family:Poppins;
-  background:#0f172a;
-  color:white;
-}
-
-/* HERO */
-.hero{
-  text-align:center;
-  padding:100px 20px;
-  background:linear-gradient(135deg,#4c1d95,#1e293b);
-}
-
-.hero h1{font-size:40px;}
-.hero p{opacity:.8;}
-
-.btn{
-  padding:12px 20px;
-  margin:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
+body{margin:0;font-family:Poppins;background:#0f172a;color:white;}
+.hero{text-align:center;padding:80px;background:linear-gradient(135deg,#4c1d95,#1e293b);}
+.btn{padding:10px 18px;margin:10px;border:none;border-radius:8px;cursor:pointer;}
 .btn1{background:#7c3aed;color:white;}
 .btn2{background:#22c55e;color:white;}
 
-/* SPLIT */
-.split{
-  display:flex;
-  flex-wrap:wrap;
-}
+.split{display:flex;flex-wrap:wrap;}
+.box{flex:1;padding:40px;min-width:300px;}
+.trust{background:#f0fdf4;color:black;}
+.fabric{background:#1e293b;}
 
-.box{
-  flex:1;
-  padding:50px;
-  min-width:300px;
-}
+.section{padding:50px;text-align:center;}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;}
+.card{background:white;color:black;padding:15px;margin:10px;border-radius:10px;width:260px;transition:.3s;}
+.card:hover{transform:translateY(-8px);}
 
-.trust{
-  background:#f0fdf4;
-  color:black;
-}
-
-.fabric{
-  background:#1e293b;
-}
-
-/* CARDS */
-.cards{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-.card{
-  background:white;
-  color:black;
-  padding:20px;
+input,select{
+  padding:10px;
   margin:10px;
-  border-radius:10px;
-  width:250px;
-  transition:.3s;
+  border-radius:6px;
+  border:none;
 }
 
-.card:hover{
-  transform:translateY(-10px);
-}
-
-/* SECTION */
-.section{
-  padding:60px 20px;
-  text-align:center;
-}
-
-/* COUNTER */
-.counter{
-  font-size:30px;
-  font-weight:bold;
-}
-
-/* FOOTER */
-.footer{
-  padding:20px;
-  text-align:center;
-  background:black;
-}
+.footer{background:black;text-align:center;padding:20px;}
 </style>
 </head>
 
@@ -106,122 +40,95 @@ body{
 
 <!-- HERO -->
 <div class="hero" data-aos="fade-up">
-  <h1>Naewt Group</h1>
-  <p>Empowering Work. Supporting Lives.</p>
+<h1>Naewt Group</h1>
+<p>Empowering Work. Supporting Lives.</p>
 
-  <button class="btn btn1">Download FabricPro</button>
-  <button class="btn btn2">Explore Trust</button>
+<a href="fab.naewtgroup.com"><button class="btn btn1">Open FabricPro</button></a>
+<a href="trust.naewtgroup.com"><button class="btn btn2">Explore Trust</button></a>
 </div>
 
 <!-- SPLIT -->
 <div class="split">
-
-  <div class="box trust" data-aos="fade-right">
-    <h2>Naewt Trust</h2>
-    <p><b>Every Smile Matters</b></p>
-    <p>Helping people with education, healthcare and support.</p>
-    <button class="btn btn2">Visit Trust</button>
-  </div>
-
-  <div class="box fabric" data-aos="fade-left">
-    <h2>FabricPro</h2>
-    <p>Smart job work & payment system for workers.</p>
-    <button class="btn btn1">Open FabricPro</button>
-  </div>
-
+<div class="box trust" data-aos="fade-right">
+<h2>Naewt Trust</h2>
+<p><b>Every Smile Matters</b></p>
+<p>Education • Healthcare • Welfare</p>
 </div>
 
-<!-- HEALTHCARE -->
+<div class="box fabric" data-aos="fade-left">
+<h2>FabricPro</h2>
+<p>Job work • Payments • Business tools</p>
+</div>
+</div>
+
+<!-- SEARCH -->
 <div class="section">
-  <h2 data-aos="fade-up">Healthcare Directory</h2>
+<h2>Healthcare Directory</h2>
 
-  <div class="cards">
+<input type="text" id="search" placeholder="Search doctor, lab...">
+<select id="filter">
+<option value="all">All</option>
+<option value="doctor">Doctors</option>
+<option value="lab">Labs</option>
+<option value="pharmacy">Pharmacy</option>
+</select>
 
-    <div class="card" data-aos="zoom-in">
-      <b>Dr. Imran Khan</b><br>
-      Cardiologist ❤️<br>
-      ⭐ 4.6 (128 reviews)
-    </div>
-
-    <div class="card" data-aos="zoom-in">
-      <b>City Lab</b><br>
-      Full Body Checkup<br>
-      ⭐ 4.3 (89 reviews)
-    </div>
-
-    <div class="card" data-aos="zoom-in">
-      <b>Health Pharmacy</b><br>
-      24x7 Medicine<br>
-      ⭐ 4.5 (210 reviews)
-    </div>
-
-  </div>
+<div class="cards" id="list"></div>
 </div>
 
-<!-- ACHIEVEMENTS -->
+<!-- IMPACT -->
 <div class="section">
-  <h2 data-aos="fade-up">Our Impact</h2>
-
-  <div class="cards">
-
-    <div class="card" data-aos="fade-up">
-      👷 Workers<br>
-      <div class="counter">1200+</div>
-    </div>
-
-    <div class="card" data-aos="fade-up">
-      💰 Earnings<br>
-      <div class="counter">₹25L+</div>
-    </div>
-
-    <div class="card" data-aos="fade-up">
-      🤝 Families Helped<br>
-      <div class="counter">300+</div>
-    </div>
-
-  </div>
+<h2>Our Impact</h2>
+<div class="cards">
+<div class="card">👷 Workers<br><b>1200+</b></div>
+<div class="card">💰 Earnings<br><b>₹25L+</b></div>
+<div class="card">🤝 Helped<br><b>300+</b></div>
+</div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  © Naewt Group | fab.naewtgroup.com | trust.naewtgroup.com
+© Naewt Group
 </div>
 
-<!-- JS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
+
 <script>
-AOS.init();
+const data = [
+{name:"Dr. Imran Khan",type:"doctor",spec:"Cardiologist ❤️",rating:"4.6"},
+{name:"Dr. Sana Ali",type:"doctor",spec:"Child Specialist 👶",rating:"4.4"},
+{name:"City Lab",type:"lab",spec:"Blood & Full Body Test",rating:"4.3"},
+{name:"Health Lab Pro",type:"lab",spec:"Advanced Diagnostics",rating:"4.5"},
+{name:"Care Pharmacy",type:"pharmacy",spec:"24x7 Medicine",rating:"4.7"}
+];
+
+function show(){
+let search = document.getElementById("search").value.toLowerCase();
+let filter = document.getElementById("filter").value;
+let html="";
+
+data.forEach(item=>{
+if((filter==="all"||item.type===filter) && item.name.toLowerCase().includes(search)){
+html+=`
+<div class="card">
+<b>${item.name}</b><br>
+${item.spec}<br>
+⭐ ${item.rating}
+</div>`;
+}
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+document.getElementById("search").onkeyup=show;
+document.getElementById("filter").onchange=show;
+
+show();
 </script>
 
 </body>
 </html>
-  <!-- TRUST -->
-  <div class="box trust">
-    <h2>Naewt Trust</h2>
-    <p><b>Every Smile Matters</b></p>
-    <p>Education, healthcare, and welfare support for those in need.</p>
-    <button class="btn btn-secondary">Visit Trust</button>
-  </div>
-
-  <!-- FABRICPRO -->
-  <div class="box fabric">
-    <h2>FabricPro</h2>
-    <p>Smart job work & payment system for workers and factories.</p>
-    <button class="btn btn-primary">Open FabricPro</button>
-  </div>
-
-</div>
-
-<!-- HEALTHCARE -->
-<div class="section">
-  <h2>Healthcare Directory</h2>
-
-  <div class="card">
-    <b>Dr. Imran Khan</b><br>
-    Cardiologist ❤️<br>
-    ⭐ 4.6 (128 reviews)
-  </div>
-
   <div class="card">
     <b>City Lab</b><br>
     Blood Test & Full Body Checkup<br>
