@@ -1,368 +1,247 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-<title>Naewt Group - Serving Humanity</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naewt Group</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #0f2b5e, #1e4a9c, #2a6ad1);
-  color: white;
-  line-height: 1.6;
-  overflow-x: hidden;
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0b1b2b;
+  color:white;
 }
 
-.hero {
-  padding: 80px 20px 60px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+/* NAVBAR */
+.nav{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:#071422;
+  position:sticky;
+  top:0;
+}
+.nav a{
+  color:white;
+  margin:0 10px;
+  text-decoration:none;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  animation: pulse 15s infinite ease-in-out;
+/* HERO */
+.hero{
+  padding:40px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#4a00e0,#8e2de2);
+}
+.btn{
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  margin:10px;
+  cursor:pointer;
+}
+.btn1{background:#7c3aed;color:white;}
+.btn2{background:#22c55e;color:white;}
+
+/* SECTION */
+.section{
+  padding:30px 20px;
+  text-align:center;
 }
 
-/* Animated TRUST Logo */
-.trust-logo-container {
-  margin-bottom: 30px;
-  animation: fadeInScale 1.5s ease;
+/* CARDS */
+.card{
+  background:white;
+  color:black;
+  padding:15px;
+  margin:10px auto;
+  border-radius:12px;
+  max-width:350px;
+  cursor:pointer;
 }
 
-.trust-logo {
-  font-size: 110px;
-  font-weight: 900;
-  letter-spacing: 12px;
-  background: linear-gradient(90deg, #ffffff, #a5d6ff, #c4e0ff, #ffffff);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 10px 30px rgba(165, 214, 255, 0.5);
-  position: relative;
-  display: inline-block;
-  animation: glowPulse 3s infinite alternate ease-in-out, gradientShift 6s linear infinite;
+/* IMPACT */
+.impact .card{
+  background:#eee;
 }
 
-.trust-logo::before {
-  content: "🤝";
-  font-size: 55px;
-  position: absolute;
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: handshake 2.8s infinite ease-in-out;
+/* SELECT */
+select{
+  padding:10px;
+  border-radius:8px;
+  margin:10px;
 }
 
-.tagline {
-  font-size: 24px;
-  color: #a5d6ff;
-  letter-spacing: 5px;
-  font-weight: 600;
-  margin-top: 10px;
-  animation: fadeInUp 1.8s 0.8s forwards;
+/* POPUP */
+.popup{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.popup-content{
+  background:white;
+  color:black;
+  padding:20px;
+  border-radius:12px;
+  width:90%;
+  max-width:400px;
+}
+.close{
+  float:right;
+  color:red;
+  cursor:pointer;
+  font-size:20px;
 }
 
-/* Hero Text */
-h1 {
-  font-size: 3.2rem;
-  margin: 20px 0 10px;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+input{
+  padding:10px;
+  width:70%;
 }
 
-.hero p {
-  font-size: 1.35rem;
-  margin-bottom: 40px;
-  opacity: 0.95;
-}
-
-/* Buttons */
-.btn {
-  padding: 16px 34px;
-  margin: 12px;
-  border: none;
-  border-radius: 50px;
-  font-size: 1.15rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btn1 { background: linear-gradient(45deg, #7b2ff7, #9d5cff); box-shadow: 0 8px 25px rgba(123,47,247,0.45); }
-.btn2 { background: linear-gradient(45deg, #2ecc71, #27ae60); box-shadow: 0 8px 25px rgba(46,204,113,0.45); }
-
-.btn:hover {
-  transform: translateY(-8px) scale(1.06);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-}
-
-/* Sections */
-.section { padding: 70px 20px; text-align: center; }
-
-h2 {
-  font-size: 2.6rem;
-  margin-bottom: 50px;
-  position: relative;
-  display: inline-block;
-}
-
-h2::after {
-  content: '';
-  position: absolute;
-  bottom: -12px; left: 50%;
-  transform: translateX(-50%);
-  width: 90px; height: 4px;
-  background: linear-gradient(to right, #7b2ff7, #2ecc71);
-  border-radius: 2px;
-}
-
-.card {
-  background: rgba(255,255,255,0.95);
-  color: #1e3c72;
-  padding: 25px 20px;
-  margin: 20px auto;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 420px;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-
-.card:hover {
-  transform: translateY(-15px) scale(1.06);
-  box-shadow: 0 25px 50px rgba(123, 47, 247, 0.25);
-}
-
-.impact-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-}
-
-/* Popup */
-.popup {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.78);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-box {
-  background: white;
-  color: #1e3c72;
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 460px;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  transform: scale(0.7);
-  animation: popupAnim 0.5s forwards;
-}
-
-@keyframes popupAnim { to { transform: scale(1); } }
-
-.close-btn {
-  position: absolute;
-  top: 15px; right: 15px;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  font-size: 1.3rem;
-  cursor: pointer;
-}
-
-.review-box {
-  background: #f8f9fa;
-  padding: 12px 15px;
-  border-radius: 12px;
-  margin: 10px 0;
-  text-align: left;
-  border-left: 4px solid #7b2ff7;
-}
-
-input, select {
-  padding: 14px 18px;
-  margin: 10px;
-  border-radius: 50px;
-  border: none;
-  font-size: 1rem;
-  width: 280px;
-  max-width: 90%;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-#list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px 0;
-}
-
-/* Animations */
-@keyframes pulse { 0%,100% {opacity:0.6;} 50% {opacity:0.9;} }
-@keyframes glowPulse {
-  from { text-shadow: 0 10px 30px rgba(165,214,255,0.4); }
-  to { text-shadow: 0 20px 50px rgba(123,47,247,0.6); }
-}
-@keyframes gradientShift {
-  to { background-position: 200% center; }
-}
-@keyframes handshake {
-  0%,100% { transform: translateX(-50%) rotate(-10deg); }
-  50% { transform: translateX(-50%) rotate(10deg); }
-}
-@keyframes fadeInScale { from {opacity:0; transform:scale(0.6);} to {opacity:1; transform:scale(1);} }
-@keyframes fadeInUp { from {opacity:0; transform:translateY(40px);} to {opacity:1; transform:translateY(0);} }
 </style>
 </head>
 
 <body>
 
-<div class="hero">
-  <!-- Animated TRUST Logo -->
-  <div class="trust-logo-container">
-    <div class="trust-logo">TRUST</div>
-    <div class="tagline">NAEWT GROUP</div>
+<!-- NAVBAR -->
+<div class="nav">
+  <div><b>Naewt Trust</b></div>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Our Work</a>
+    <a href="#">Contact</a>
   </div>
-
-  <h1>Naewt Group</h1>
-  <p><strong>Serving Humanity</strong> with Compassion & Technology</p>
-  
-  <a href="https://fab.naewtgroup.com" target="_blank"><button class="btn btn1">🚀 Open FabricPro</button></a>
-  <a href="https://trust.naewtgroup.com" target="_blank"><button class="btn btn2">🤝 Explore Trust</button></a>
 </div>
 
+<!-- HERO -->
+<div class="hero">
+  <h1>Naewt Group</h1>
+  <p>Empowering Skilled & Unskilled People</p>
+
+  <button class="btn btn1">Open FabricPro</button>
+  <button class="btn btn2">Explore Trust</button>
+</div>
+
+<!-- IMPACT -->
+<div class="section impact">
+  <h2>Our Impact</h2>
+
+  <div class="card">👷 Workers <br><b>1200+</b></div>
+  <div class="card">💰 Earnings <br><b>₹25L+</b></div>
+  <div class="card">🤝 Helped <br><b>300+</b></div>
+</div>
+
+<!-- DIRECTORY -->
 <div class="section">
-  <h2>Healthcare Directory</h2>
-  
-  <input type="text" id="search" placeholder="🔍 Search doctor, lab, hospital...">
-  <select id="filter">
-    <option value="all">All Categories</option>
-    <option value="doctor">👨‍⚕️ Doctors</option>
-    <option value="lab">🧪 Labs & Diagnostics</option>
+  <h2>Empanelled Directory</h2>
+
+  <!-- CATEGORY -->
+  <select id="category" onchange="loadList()">
+    <option value="">Select Category</option>
+    <option value="doctor">Doctors</option>
+    <option value="lab">Labs</option>
+    <option value="pharmacy">Pharmacy</option>
+    <option value="advocate">Advocate</option>
+    <option value="ca">Chartered Accountant</option>
+    <option value="teacher">Teacher</option>
+    <option value="school">School</option>
+    <option value="madarsa">Madarsa</option>
   </select>
 
+  <!-- NAME LIST -->
   <div id="list"></div>
-</div>
-
-<div class="section" style="background:rgba(255,255,255,0.08);">
-  <h2>Our Impact - Serving Humanity</h2>
-  <div class="impact-grid">
-    <div class="card">👷 Skilled & Unskilled Workers <br><b style="font-size:2.2rem;color:#2ecc71;">1200+</b></div>
-    <div class="card">💰 Total Earnings Generated <br><b style="font-size:2.2rem;color:#2ecc71;">₹25L+</b></div>
-    <div class="card">🤝 Families Helped <br><b style="font-size:2.2rem;color:#2ecc71;">300+</b></div>
-  </div>
-</div>
-
-<div class="footer" style="background:#0a1f45; padding:40px 20px; font-size:1.1rem; text-align:center;">
-  © 2026 Naewt Group | Empowering Lives | Serving Humanity with ❤️
 </div>
 
 <!-- POPUP -->
 <div class="popup" id="popup">
-  <div class="popup-box">
-    <button class="close-btn" onclick="closePopup()">✕</button>
-    
-    <h3 id="pname" style="font-size:1.8rem; margin-bottom:8px;"></h3>
-    <p id="pspec" style="font-size:1.2rem; color:#555; margin-bottom:15px;"></p>
-    <p id="prating" style="font-size:1.4rem; margin-bottom:20px;"></p>
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">X</span>
 
-    <h4 style="margin:20px 0 10px;">🗣️ Reviews</h4>
+    <h3 id="pname"></h3>
+    <p id="pinfo"></p>
+    <p id="prating"></p>
+
+    <h4>Reviews</h4>
     <div id="reviews"></div>
 
-    <input type="text" id="reviewInput" placeholder="Write your review here..." style="width:100%; margin-top:15px; padding:14px;">
-    <button onclick="addReview()" style="margin-top:12px; width:100%; padding:14px; background:#7b2ff7; border:none; border-radius:50px; color:white; font-size:1.1rem;">Submit Review</button>
+    <input id="reviewInput" placeholder="Write review...">
+    <button onclick="addReview()">Submit</button>
+
   </div>
 </div>
 
 <script>
-let data = [
-  {name:"Dr Khan", type:"doctor", spec:"Cardiologist ❤️", rating:4.8, reviews:["Very experienced and caring doctor","Staff is very helpful"]},
-  {name:"City Lab", type:"lab", spec:"Blood Test, ECG & Full Body Checkup", rating:4.5, reviews:["Reports on same day","Very affordable"]},
-  {name:"Dr Sharma", type:"doctor", spec:"Dentist 🦷", rating:4.9, reviews:["Extremely friendly","Clinic is very clean and modern"]}
+
+let currentIndex=0;
+
+/* DATA */
+const data=[
+{name:"Dr. Sharma",type:"doctor",info:"Cardiologist",rating:4.5,reviews:["Good doctor","Helpful"]},
+{name:"City Lab",type:"lab",info:"Blood Test",rating:4.2,reviews:["Fast service"]},
+{name:"Health Pharmacy",type:"pharmacy",info:"All medicines",rating:4.3,reviews:["Affordable"]},
+{name:"Advocate Khan",type:"advocate",info:"Legal expert",rating:4.1,reviews:["Experienced"]},
+{name:"CA Gupta",type:"ca",info:"Tax consultant",rating:4.4,reviews:["Professional"]},
+{name:"Mr. Verma",type:"teacher",info:"Math teacher",rating:4.6,reviews:["Great teaching"]},
+{name:"Bright School",type:"school",info:"CBSE School",rating:4.3,reviews:["Good education"]},
+{name:"Madarsa Noor",type:"madarsa",info:"Islamic education",rating:4.5,reviews:["Peaceful place"]}
 ];
 
-let saved = localStorage.getItem("reviewsData");
-if(saved) data = JSON.parse(saved);
+/* LOAD LIST */
+function loadList(){
+let cat=document.getElementById("category").value;
+let html="";
 
-let currentIndex = 0;
+data.forEach((item,i)=>{
+if(item.type==cat){
+html+=`
+<div class="card" onclick="openPopup(${i})">
+<b>${item.name}</b><br>
+${item.info}<br>
+⭐ ${item.rating}
+</div>`;
+}
+});
 
-function show() {
-  let html = "";
-  let search = document.getElementById("search").value.toLowerCase();
-  let filter = document.getElementById("filter").value;
-
-  data.forEach((item, i) => {
-    if ((filter === "all" || item.type === filter) && 
-        item.name.toLowerCase().includes(search)) {
-      html += `
-      <div class="card" onclick="openPopup(${i})">
-        <b style="font-size:1.4rem;">${item.name}</b><br>
-        <span style="color:#555;">${item.spec}</span><br><br>
-        ⭐ <strong>\( {item.rating}</strong> ( \){item.reviews.length} reviews)
-      </div>`;
-    }
-  });
-
-  document.getElementById("list").innerHTML = html || "<p style='color:white; padding:40px;'>No results found 😔</p>";
+document.getElementById("list").innerHTML=html;
 }
 
-function openPopup(i) {
-  currentIndex = i;
-  let item = data[i];
-  document.getElementById("popup").style.display = "flex";
-  
-  document.getElementById("pname").innerText = item.name;
-  document.getElementById("pspec").innerText = item.spec;
-  document.getElementById("prating").innerHTML = `⭐ ${item.rating} • ${item.reviews.length} Reviews`;
+/* POPUP */
+function openPopup(i){
+currentIndex=i;
+let item=data[i];
 
-  let revHTML = "";
-  item.reviews.forEach(r => {
-    revHTML += `<div class="review-box">• ${r}</div>`;
-  });
-  document.getElementById("reviews").innerHTML = revHTML;
+document.getElementById("popup").style.display="flex";
+document.getElementById("pname").innerText=item.name;
+document.getElementById("pinfo").innerText=item.info;
+document.getElementById("prating").innerText="⭐ "+item.rating;
+
+let revHTML="";
+item.reviews.forEach(r=>{
+revHTML+=`<p>• ${r}</p>`;
+});
+document.getElementById("reviews").innerHTML=revHTML;
 }
 
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
+/* CLOSE */
+function closePopup(){
+document.getElementById("popup").style.display="none";
 }
 
-function addReview() {
-  let text = document.getElementById("reviewInput").value.trim();
-  if (text) {
-    data[currentIndex].reviews.push(text);
-    localStorage.setItem("reviewsData", JSON.stringify(data));
-    document.getElementById("reviewInput").value = "";
-    openPopup(currentIndex);
-    show();
-  }
+/* ADD REVIEW */
+function addReview(){
+let text=document.getElementById("reviewInput").value;
+if(text){
+data[currentIndex].reviews.push(text);
+document.getElementById("reviewInput").value="";
+openPopup(currentIndex);
+}
 }
 
-document.getElementById("search").addEventListener("keyup", show);
-document.getElementById("filter").addEventListener("change", show);
-
-show();
 </script>
 
 </body>
