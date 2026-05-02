@@ -8,37 +8,85 @@
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  background:linear-gradient(135deg,#1e293b,#0f172a);
   color:white;
   text-align:center;
 }
 
-.hero{padding:60px 20px;}
+/* HERO */
+.hero{
+  padding:70px 20px;
+  background:linear-gradient(135deg,#4c1d95,#1e293b);
+}
 
 .btn{
   padding:12px 20px;
   margin:10px;
-  border:none;
   border-radius:8px;
-  color:white;
-  font-size:16px;
-}
-.btn1{background:#7b2ff7;}
-.btn2{background:#2ecc71;}
-
-.section{padding:40px 20px;}
-
-.card{
-  background:white;
-  color:black;
-  padding:15px;
-  margin:10px auto;
-  border-radius:12px;
-  width:90%;
-  max-width:400px;
+  border:none;
   cursor:pointer;
+  font-weight:bold;
 }
 
+.btn1{background:#9333ea;color:white;}
+.btn2{background:#22c55e;color:white;}
+
+/* SPLIT */
+.split{
+  display:flex;
+  flex-wrap:wrap;
+}
+
+.box{
+  flex:1;
+  padding:40px;
+  transition:0.3s;
+}
+
+.box:hover{
+  transform:scale(1.03);
+}
+
+.trust{
+  background:#ecfdf5;
+  color:black;
+}
+
+.fabric{
+  background:#020617;
+}
+
+/* TRUST LOGO */
+.trust-logo{
+  display:flex;
+  justify-content:center;
+  margin:20px;
+}
+
+.circle{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:40px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+/* SECTION */
+.section{
+  padding:40px 20px;
+}
+
+/* SEARCH */
 input,select{
   padding:10px;
   margin:5px;
@@ -46,173 +94,146 @@ input,select{
   border:none;
 }
 
+/* CARDS */
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.card{
+  background:white;
+  color:black;
+  margin:10px;
+  padding:15px;
+  border-radius:10px;
+  width:250px;
+}
+
+/* FOOTER */
 .footer{
   background:black;
   padding:20px;
-}
-
-.popup{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.8);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-.popup-box{
-  background:white;
-  color:black;
-  padding:20px;
-  border-radius:10px;
-  width:90%;
-  max-width:400px;
-  position:relative;
-}
-
-.close-btn{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:red;
-  color:white;
-  border:none;
-  padding:5px 10px;
-  border-radius:5px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- HERO -->
 <div class="hero">
-  <h1>Naewt Group</h1>
-  <p>Empowering Skilled & Unskilled People with FabricPro</p>
+<h1>Naewt Group</h1>
+<p>Empowering Skilled & Unskilled People with FabricPro</p>
 
-  <a href="https://fab.naewtgroup.com"><button class="btn btn1">Open FabricPro</button></a>
-  <a href="https://trust.naewtgroup.com"><button class="btn btn2">Explore Trust</button></a>
+<button class="btn btn1" onclick="location.href='https://fab.naewtgroup.com'">
+Open FabricPro
+</button>
+
+<button class="btn btn2" onclick="location.href='https://trust.naewtgroup.com'">
+Explore Trust
+</button>
 </div>
 
+<!-- SPLIT -->
+<div class="split">
+
+<div class="box trust">
+<h2>Naewt Trust</h2>
+
+<div class="trust-logo">
+<div class="circle">🤝</div>
+</div>
+
+<p><b>Every Smile Matters</b></p>
+<p>Education • Healthcare • Welfare</p>
+
+<p>We support people through training, healthcare and financial help.</p>
+</div>
+
+<div class="box fabric">
+<h2>FabricPro</h2>
+<p>Job Work • Payments • Business Tools</p>
+
+<p>Smart system for managing job work and earnings.</p>
+</div>
+
+</div>
+
+<!-- SKILL SECTION -->
 <div class="section">
-  <h2>Healthcare Directory</h2>
-
-  <input type="text" id="search" placeholder="Search doctor, lab...">
-  <select id="filter">
-    <option value="all">All</option>
-    <option value="doctor">Doctors</option>
-    <option value="lab">Labs</option>
-  </select>
-
-  <div id="list"></div>
+<h2>Skill Development</h2>
+<p>
+We help people learn skills and connect with job work opportunities.
+</p>
 </div>
 
+<!-- SEARCH DIRECTORY -->
 <div class="section">
-  <h2>Our Impact</h2>
+<h2>Healthcare Directory</h2>
 
-  <div class="card">👷 Workers <br><b>1200+</b></div>
-  <div class="card">💰 Earnings <br><b>₹25L+</b></div>
-  <div class="card">🤝 Helped <br><b>300+</b></div>
+<input type="text" id="search" placeholder="Search doctor, lab...">
+<select id="filter">
+<option value="all">All</option>
+<option value="doctor">Doctors</option>
+<option value="lab">Labs</option>
+<option value="pharmacy">Pharmacy</option>
+</select>
+
+<div class="cards" id="list"></div>
 </div>
 
+<!-- IMPACT -->
+<div class="section">
+<h2>Our Impact</h2>
+
+<div class="cards">
+<div class="card">💰 Earnings<br><b>₹25L+</b></div>
+<div class="card">🤝 Helped<br><b>300+</b></div>
+<div class="card">👷 Workers<br><b>1200+</b></div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
 <div class="footer">
-  © Naewt Group
+© Naewt Group
 </div>
 
-<!-- POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-box">
-
-    <button class="close-btn" onclick="closePopup()">X</button>
-
-    <h3 id="pname"></h3>
-    <p id="pspec"></p>
-    <p id="prating"></p>
-
-    <div id="reviews"></div>
-
-    <input type="text" id="reviewInput" placeholder="Write review...">
-    <button onclick="addReview()">Submit</button>
-
-  </div>
-</div>
-
+<!-- SCRIPT -->
 <script>
-
-let data = [
-  {name:"Dr Khan", type:"doctor", spec:"Cardiologist ❤️", rating:4.6, reviews:["Good doctor"]},
-  {name:"City Lab", type:"lab", spec:"Blood Test & Checkup", rating:4.3, reviews:["Fast service"]},
-  {name:"Dr Sharma", type:"doctor", spec:"Dentist 🦷", rating:4.8, reviews:["Very friendly"]}
+const data = [
+  {name:"City Lab", type:"lab", spec:"Blood Test & Checkup", rating:"4.3 (89 reviews)"},
+  {name:"Dr Khan", type:"doctor", spec:"Heart Specialist", rating:"4.7 (120 reviews)"},
+  {name:"Health Pharmacy", type:"pharmacy", spec:"Medicines Store", rating:"4.1 (60 reviews)"}
 ];
-
-// LOAD saved data
-let saved = localStorage.getItem("reviewsData");
-if(saved){
-  data = JSON.parse(saved);
-}
-
-let currentIndex = 0;
 
 function show(){
   let html="";
   let search=document.getElementById("search").value.toLowerCase();
   let filter=document.getElementById("filter").value;
 
-  data.forEach((item,i)=>{
-    if((filter==="all" || item.type===filter) &&
-       item.name.toLowerCase().includes(search)){
-
+  data.forEach(item=>{
+    if(
+      (filter=="all" || item.type==filter) &&
+      item.name.toLowerCase().includes(search)
+    ){
       html += `
-      <div class="card" onclick="openPopup(${i})">
+      <div class="card">
         <b>${item.name}</b><br>
         ${item.spec}<br>
         ⭐ ${item.rating}
-      </div>`;
+      </div>
+      `;
     }
   });
 
-  document.getElementById("list").innerHTML = html;
+  document.getElementById("list").innerHTML=html;
 }
 
-function openPopup(i){
-  currentIndex = i;
-  let item = data[i];
-
-  document.getElementById("popup").style.display="flex";
-  document.getElementById("pname").innerText=item.name;
-  document.getElementById("pspec").innerText=item.spec;
-  document.getElementById("prating").innerText="⭐ "+item.rating;
-
-  let revHTML="";
-  item.reviews.forEach(r=>{
-    revHTML += `<p>• ${r}</p>`;
-  });
-
-  document.getElementById("reviews").innerHTML=revHTML;
-}
-
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-}
-
-function addReview(){
-  let text = document.getElementById("reviewInput").value;
-
-  if(text){
-    data[currentIndex].reviews.push(text);
-
-    localStorage.setItem("reviewsData", JSON.stringify(data));
-
-    document.getElementById("reviewInput").value="";
-    openPopup(currentIndex);
-  }
-}
-
-document.getElementById("search").onkeyup = show;
-document.getElementById("filter").onchange = show;
+document.getElementById("search").onkeyup=show;
+document.getElementById("filter").onchange=show;
 
 show();
-
 </script>
 
 </body>
