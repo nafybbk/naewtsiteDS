@@ -25,7 +25,7 @@ select,input{padding:10px;margin:10px;}
 </div>
 
 <select id="cat" onchange="loadData()">
-<option value="">Select Category</option>
+<option value="">All</option>
 <option value="doctor">Doctors</option>
 <option value="lab">Labs</option>
 <option value="pharmacy">Pharmacy</option>
@@ -76,6 +76,11 @@ query = query.eq("type", cat);
 
 let { data, error } = await query;
 
+if(!data){
+document.getElementById("list").innerHTML = "No data";
+return;
+}
+
 let html = "";
 
 data.forEach(item=>{
@@ -105,16 +110,19 @@ document.getElementById("name").innerText = data.name;
 document.getElementById("info").innerText = data.info;
 document.getElementById("rating").innerText = "⭐ "+data.rating;
 
-// LOAD REVIEWS
+// REVIEWS
 let { data: reviews } = await supabase
 .from("reviews")
 .select("*")
 .eq("item_id", id);
 
 let rhtml = "";
+
+if(reviews){
 reviews.forEach(r=>{
 rhtml += `<p>• ${r.text}</p>`;
 });
+}
 
 document.getElementById("reviews").innerHTML = rhtml;
 }
@@ -137,6 +145,9 @@ document.getElementById("reviewInput").value="";
 openPop(currentId);
 }
 }
+
+// AUTO LOAD
+loadData();
 
 </script>
 
