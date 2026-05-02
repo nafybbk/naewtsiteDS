@@ -4,6 +4,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Naewt Group</title>
 
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
 <style>
 body{
   margin:0;
@@ -12,45 +14,75 @@ body{
   color:white;
 }
 
-/* NAVBAR */
-.nav{
-  display:flex;
-  justify-content:space-between;
-  padding:15px;
-  background:#071422;
-  position:sticky;
-  top:0;
-}
-.nav a{
-  color:white;
-  margin:0 10px;
-  text-decoration:none;
-}
-
 /* HERO */
 .hero{
-  padding:40px 20px;
   text-align:center;
+  padding:80px 20px;
   background:linear-gradient(135deg,#4a00e0,#8e2de2);
 }
+.hero h1{font-size:40px;}
+.hero p{font-size:18px;}
+
 .btn{
   padding:12px 20px;
   border:none;
   border-radius:10px;
   margin:10px;
   cursor:pointer;
+  font-size:16px;
 }
 .btn1{background:#7c3aed;color:white;}
 .btn2{background:#22c55e;color:white;}
 
-/* SECTION */
-.section{
-  padding:30px 20px;
+/* TRUST SECTION */
+.trust{
+  background:#d9e3df;
+  color:black;
   text-align:center;
+  padding:50px 20px;
 }
 
-/* CARDS */
+/* LOGO */
+.logo{
+  width:120px;
+  height:120px;
+  background:#22c55e;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:50px;
+  margin:auto;
+  animation:float 3s infinite;
+}
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0);}
+}
+
+/* IMPACT */
+.section{
+  padding:40px 20px;
+  text-align:center;
+}
 .card{
+  background:rgba(255,255,255,0.1);
+  padding:20px;
+  margin:10px auto;
+  border-radius:15px;
+  max-width:320px;
+  backdrop-filter:blur(10px);
+}
+
+/* DIRECTORY */
+select{
+  padding:10px;
+  border-radius:8px;
+}
+
+/* LIST CARD */
+.listCard{
   background:white;
   color:black;
   padding:15px;
@@ -58,18 +90,6 @@ body{
   border-radius:12px;
   max-width:350px;
   cursor:pointer;
-}
-
-/* IMPACT */
-.impact .card{
-  background:#eee;
-}
-
-/* SELECT */
-select{
-  padding:10px;
-  border-radius:8px;
-  margin:10px;
 }
 
 /* POPUP */
@@ -82,7 +102,7 @@ select{
   justify-content:center;
   align-items:center;
 }
-.popup-content{
+.popupBox{
   background:white;
   color:black;
   padding:20px;
@@ -94,32 +114,18 @@ select{
   float:right;
   color:red;
   cursor:pointer;
-  font-size:20px;
 }
-
 input{
   padding:10px;
   width:70%;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div class="nav">
-  <div><b>Naewt Trust</b></div>
-  <div>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Our Work</a>
-    <a href="#">Contact</a>
-  </div>
-</div>
-
 <!-- HERO -->
-<div class="hero">
+<div class="hero" data-aos="fade-up">
   <h1>Naewt Group</h1>
   <p>Empowering Skilled & Unskilled People</p>
 
@@ -127,82 +133,80 @@ input{
   <button class="btn btn2">Explore Trust</button>
 </div>
 
-<!-- IMPACT -->
-<div class="section impact">
-  <h2>Our Impact</h2>
+<!-- TRUST -->
+<div class="trust" data-aos="fade-up">
+  <h2>Naewt Trust</h2>
 
-  <div class="card">👷 Workers <br><b>1200+</b></div>
-  <div class="card">💰 Earnings <br><b>₹25L+</b></div>
-  <div class="card">🤝 Helped <br><b>300+</b></div>
+  <div class="logo">🤝</div>
+
+  <h3>Every Smile Matters</h3>
+  <p>Education • Healthcare • Welfare</p>
+</div>
+
+<!-- IMPACT -->
+<div class="section">
+  <h2 data-aos="fade-up">Our Impact</h2>
+
+  <div class="card" data-aos="zoom-in">👷 Workers<br><b>1200+</b></div>
+  <div class="card" data-aos="zoom-in">💰 Earnings<br><b>₹25L+</b></div>
+  <div class="card" data-aos="zoom-in">🤝 Helped<br><b>300+</b></div>
 </div>
 
 <!-- DIRECTORY -->
 <div class="section">
-  <h2>Empanelled Directory</h2>
+  <h2 data-aos="fade-up">Directory</h2>
 
-  <!-- CATEGORY -->
-  <select id="category" onchange="loadList()">
-    <option value="">Select Category</option>
+  <select id="cat" onchange="loadData()">
+    <option value="">Select</option>
     <option value="doctor">Doctors</option>
     <option value="lab">Labs</option>
     <option value="pharmacy">Pharmacy</option>
-    <option value="advocate">Advocate</option>
-    <option value="ca">Chartered Accountant</option>
-    <option value="teacher">Teacher</option>
-    <option value="school">School</option>
-    <option value="madarsa">Madarsa</option>
   </select>
 
-  <!-- NAME LIST -->
   <div id="list"></div>
 </div>
 
 <!-- POPUP -->
 <div class="popup" id="popup">
-  <div class="popup-content">
-    <span class="close" onclick="closePopup()">X</span>
+<div class="popupBox">
+<span class="close" onclick="closePop()">X</span>
 
-    <h3 id="pname"></h3>
-    <p id="pinfo"></p>
-    <p id="prating"></p>
+<h3 id="name"></h3>
+<p id="info"></p>
+<p id="rating"></p>
 
-    <h4>Reviews</h4>
-    <div id="reviews"></div>
+<div id="reviews"></div>
 
-    <input id="reviewInput" placeholder="Write review...">
-    <button onclick="addReview()">Submit</button>
+<input id="rev">
+<button onclick="addRev()">Submit</button>
 
-  </div>
 </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
 
 <script>
 
-let currentIndex=0;
+let index=0;
 
-/* DATA */
 const data=[
-{name:"Dr. Sharma",type:"doctor",info:"Cardiologist",rating:4.5,reviews:["Good doctor","Helpful"]},
-{name:"City Lab",type:"lab",info:"Blood Test",rating:4.2,reviews:["Fast service"]},
-{name:"Health Pharmacy",type:"pharmacy",info:"All medicines",rating:4.3,reviews:["Affordable"]},
-{name:"Advocate Khan",type:"advocate",info:"Legal expert",rating:4.1,reviews:["Experienced"]},
-{name:"CA Gupta",type:"ca",info:"Tax consultant",rating:4.4,reviews:["Professional"]},
-{name:"Mr. Verma",type:"teacher",info:"Math teacher",rating:4.6,reviews:["Great teaching"]},
-{name:"Bright School",type:"school",info:"CBSE School",rating:4.3,reviews:["Good education"]},
-{name:"Madarsa Noor",type:"madarsa",info:"Islamic education",rating:4.5,reviews:["Peaceful place"]}
+{name:"Dr Sharma",type:"doctor",info:"Heart Specialist",rating:4.5,reviews:["Good"]},
+{name:"City Lab",type:"lab",info:"Blood Test",rating:4.2,reviews:["Fast"]},
+{name:"Med Pharmacy",type:"pharmacy",info:"All medicines",rating:4.3,reviews:["Cheap"]}
 ];
 
-/* LOAD LIST */
-function loadList(){
-let cat=document.getElementById("category").value;
+function loadData(){
+let c=document.getElementById("cat").value;
 let html="";
 
-data.forEach((item,i)=>{
-if(item.type==cat){
+data.forEach((d,i)=>{
+if(d.type==c){
 html+=`
-<div class="card" onclick="openPopup(${i})">
-<b>${item.name}</b><br>
-${item.info}<br>
-⭐ ${item.rating}
+<div class="listCard" onclick="openPop(${i})">
+<b>${d.name}</b><br>
+${d.info}<br>
+⭐ ${d.rating}
 </div>`;
 }
 });
@@ -210,35 +214,30 @@ ${item.info}<br>
 document.getElementById("list").innerHTML=html;
 }
 
-/* POPUP */
-function openPopup(i){
-currentIndex=i;
-let item=data[i];
+function openPop(i){
+index=i;
+let d=data[i];
 
 document.getElementById("popup").style.display="flex";
-document.getElementById("pname").innerText=item.name;
-document.getElementById("pinfo").innerText=item.info;
-document.getElementById("prating").innerText="⭐ "+item.rating;
+document.getElementById("name").innerText=d.name;
+document.getElementById("info").innerText=d.info;
+document.getElementById("rating").innerText="⭐ "+d.rating;
 
-let revHTML="";
-item.reviews.forEach(r=>{
-revHTML+=`<p>• ${r}</p>`;
-});
-document.getElementById("reviews").innerHTML=revHTML;
+let rev="";
+d.reviews.forEach(r=>rev+=`<p>${r}</p>`);
+document.getElementById("reviews").innerHTML=rev;
 }
 
-/* CLOSE */
-function closePopup(){
+function closePop(){
 document.getElementById("popup").style.display="none";
 }
 
-/* ADD REVIEW */
-function addReview(){
-let text=document.getElementById("reviewInput").value;
-if(text){
-data[currentIndex].reviews.push(text);
-document.getElementById("reviewInput").value="";
-openPopup(currentIndex);
+function addRev(){
+let t=document.getElementById("rev").value;
+if(t){
+data[index].reviews.push(t);
+document.getElementById("rev").value="";
+openPop(index);
 }
 }
 
