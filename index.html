@@ -4,59 +4,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Naewt Directory</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
-body{font-family:Arial;background:#0b1b2b;color:white;text-align:center;margin:0;}
-.hero{padding:40px;background:linear-gradient(135deg,#4a00e0,#8e2de2);}
-.card{background:white;color:black;margin:10px;padding:15px;border-radius:10px;cursor:pointer;}
-.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;}
-.box{background:white;color:black;padding:20px;border-radius:10px;width:90%;max-width:400px;}
-.close{float:right;color:red;cursor:pointer;}
-select,input{padding:10px;margin:10px;}
+body {
+  margin:0;
+  font-family: Arial;
+  background:#0b1d2e;
+  color:white;
+}
+
+.header {
+  padding:40px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#6a00ff,#a100ff);
+}
+
+select {
+  margin:20px auto;
+  display:block;
+  padding:10px;
+  border-radius:8px;
+  font-size:16px;
+}
+
+.card {
+  background:white;
+  color:black;
+  margin:10px;
+  padding:15px;
+  border-radius:12px;
+}
+
+.popup {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.popup-box {
+  background:white;
+  color:black;
+  padding:20px;
+  border-radius:12px;
+  width:90%;
+}
+
+button {
+  padding:8px 12px;
+  margin-top:10px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="hero">
-<h1>Naewt Directory</h1>
-<p>Live Database System</p>
+<div class="header">
+  <h1>Naewt Directory</h1>
+  <p>Live Database System</p>
 </div>
 
 <select id="cat" onchange="loadData()">
-<option value="">All</option>
-<option value="doctor">Doctors</option>
-<option value="lab">Labs</option>
-<option value="pharmacy">Pharmacy</option>
-<option value="advocate">Advocate</option>
-<option value="ca">CA</option>
-<option value="teacher">Teacher</option>
-<option value="school">School</option>
-<option value="madarsa">Madarsa</option>
+  <option value="">All</option>
+  <option value="doctor">Doctor</option>
+  <option value="lab">Lab</option>
+  <option value="pharmacy">Pharmacy</option>
+  <option value="advocate">Advocate</option>
+  <option value="ca">CA</option>
+  <option value="teacher">Teacher</option>
 </select>
 
 <div id="list"></div>
 
+<!-- POPUP -->
 <div class="popup" id="popup">
-<div class="box">
-<span class="close" onclick="closePop()">X</span>
+  <div class="popup-box">
+    <h3 id="pname"></h3>
+    <p id="pinfo"></p>
+    <p id="prating"></p>
 
-<h3 id="name"></h3>
-<p id="info"></p>
-<p id="rating"></p>
+    <h4>Reviews</h4>
+    <div id="reviews"></div>
 
-<h4>Reviews</h4>
-<div id="reviews"></div>
-
-<input id="reviewInput" placeholder="Write review">
-<button onclick="addReview()">Submit</button>
-
-</div>
+    <input id="reviewInput" placeholder="Write review">
+    <button onclick="addReview()">Submit</button>
+    <br>
+    <button onclick="closePop()">Close</button>
+  </div>
 </div>
 
 <script>
-
 const supabaseUrl = "https://byboobszokaiupxatcup.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5Ym9vYnN6b2thaXVweGF0Y3VwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MDMyNDgsImV4cCI6MjA5MzI3OTI0OH0.S7DFqupAfeGd2PX8l_E-rPCFcMbjUk21hoMcguSXnlQ";
 
@@ -66,89 +109,80 @@ let currentId = 0;
 
 // LOAD DATA
 async function loadData(){
-let cat = document.getElementById("cat").value;
+  let cat = document.getElementById("cat").value;
 
-let query = supabase.from("directory").select("*");
+  let query = supabase.from("directory").select("*");
 
-if(cat){
-query = query.eq("type", cat);
-}
+  if(cat){
+    query = query.eq("type", cat);
+  }
 
-let { data, error } = await query;
+  let { data, error } = await query;
 
-if(!data){
-document.getElementById("list").innerHTML = "No data";
-return;
-}
+  let html = "";
 
-let html = "";
+  data.forEach(item=>{
+    html += `
+    <div class="card" onclick="openPop(${item.id})">
+      <b>${item.type.toUpperCase()}</b><br>
+      ${item.info}<br>
+      ⭐ ${item.rating}
+    </div>`;
+  });
 
-data.forEach(item=>{
-html += `
-<div class="card" onclick="openPop(${item.id})">
-<b>${item.name}</b><br>
-${item.info}<br>
-⭐ ${item.rating}
-</div>`;
-});
-
-document.getElementById("list").innerHTML = html;
+  document.getElementById("list").innerHTML = html;
 }
 
 // OPEN POPUP
 async function openPop(id){
-currentId = id;
+  currentId = id;
 
-let { data } = await supabase
-.from("directory")
-.select("*")
-.eq("id", id)
-.single();
+  let { data } = await supabase
+  .from("directory")
+  .select("*")
+  .eq("id", id)
+  .single();
 
-document.getElementById("popup").style.display="flex";
-document.getElementById("name").innerText = data.name;
-document.getElementById("info").innerText = data.info;
-document.getElementById("rating").innerText = "⭐ "+data.rating;
+  document.getElementById("pname").innerText = data.type.toUpperCase();
+  document.getElementById("pinfo").innerText = data.info;
+  document.getElementById("prating").innerText = "⭐ " + data.rating;
 
-// REVIEWS
-let { data: reviews } = await supabase
-.from("reviews")
-.select("*")
-.eq("item_id", id);
+  // LOAD REVIEWS
+  let { data: reviews } = await supabase
+  .from("reviews")
+  .select("*")
+  .eq("directory_id", id);
 
-let rhtml = "";
+  let html = "";
+  reviews.forEach(r=>{
+    html += `<p>• ${r.text}</p>`;
+  });
 
-if(reviews){
-reviews.forEach(r=>{
-rhtml += `<p>• ${r.text}</p>`;
-});
-}
+  document.getElementById("reviews").innerHTML = html;
 
-document.getElementById("reviews").innerHTML = rhtml;
+  document.getElementById("popup").style.display = "flex";
 }
 
 // CLOSE
 function closePop(){
-document.getElementById("popup").style.display="none";
+  document.getElementById("popup").style.display = "none";
 }
 
 // ADD REVIEW
 async function addReview(){
-let text = document.getElementById("reviewInput").value;
+  let text = document.getElementById("reviewInput").value;
 
-if(text){
-await supabase.from("reviews").insert([
-{ item_id: currentId, text: text }
-]);
+  if(!text) return;
 
-document.getElementById("reviewInput").value="";
-openPop(currentId);
+  await supabase.from("reviews").insert([
+    { directory_id: currentId, text: text }
+  ]);
+
+  document.getElementById("reviewInput").value = "";
+  openPop(currentId);
 }
-}
 
-// AUTO LOAD
 loadData();
-
 </script>
 
 </body>
