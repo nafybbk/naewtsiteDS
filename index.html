@@ -68,10 +68,13 @@ let currentId = 0;
 async function loadData(){
 let cat = document.getElementById("cat").value;
 
-let { data, error } = await supabase
-.from("directory")
-.select("*")
-.eq("type", cat);
+let query = supabase.from("directory").select("*");
+
+if(cat){
+query = query.eq("type", cat);
+}
+
+let { data, error } = await query;
 
 let html = "";
 
