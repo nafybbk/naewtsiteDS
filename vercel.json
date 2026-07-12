@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        { "type": "host", "value": "downloads.naewtgroup.com" }
+      ],
+      "destination": "/downloads/index.html"
+    }
+  ]
+}
