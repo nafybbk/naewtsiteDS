@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -14,124 +14,281 @@
       color: #f0f4ff;
       line-height: 1.5;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      padding: 20px 16px;
     }
+
+    .langToggle {
+      position: fixed; top: 16px; right: 16px; z-index: 20;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 30px; padding: 4px; cursor: pointer; user-select: none;
+    }
+    .langToggle .glyph {
+      width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.85rem; color: #94a3b8; transition: all 0.2s ease;
+    }
+    .langToggle .glyph.active { background: #6c3eff; color: white; }
+
+    .page {
+      max-width: 980px; margin: 0 auto;
+      display: grid; grid-template-columns: 380px 1fr; gap: 20px;
+      align-items: start;
+      padding-top: 44px;
+    }
+    @media (max-width: 800px) {
+      .page { grid-template-columns: 1fr; }
+    }
+
     .card {
-      max-width: 460px;
-      width: 100%;
       background: rgba(255,255,255,0.07);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 32px;
-      padding: 40px 32px;
-      text-align: center;
+      border-radius: 28px;
+      padding: 32px 26px;
       box-shadow: 0 25px 50px rgba(0,0,0,0.35);
     }
-    .logo { font-size: 44px; margin-bottom: 10px; }
+
+    .left { text-align: center; }
+    .logo-img { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 10px; }
     h1 {
-      font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em;
+      font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
       background: linear-gradient(135deg, #FFF, #b6e1fc);
       -webkit-background-clip: text; background-clip: text; color: transparent;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .subtitle { color: #cfdfed; font-size: 0.95rem; margin-bottom: 6px; }
+    .subtitle { color: #cfdfed; font-size: 0.92rem; margin-bottom: 4px; }
     .version-badge {
-      display: inline-block; margin: 10px 0 26px; padding: 5px 16px;
+      display: inline-block; margin: 8px 0 20px; padding: 5px 16px;
       background: rgba(108,62,255,0.25); border: 1px solid rgba(108,62,255,0.5);
-      color: #d7c9ff; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
+      color: #d7c9ff; border-radius: 30px; font-size: 0.78rem; font-weight: 600;
     }
-    .btn-group { display: flex; flex-direction: column; gap: 14px; }
+    .btn-group { display: flex; flex-direction: column; gap: 12px; }
     .btn {
       display: flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 16px 20px; border-radius: 20px; font-weight: 700; font-size: 1rem;
+      padding: 14px 18px; border-radius: 18px; font-weight: 700; font-size: 0.95rem;
       border: none; cursor: pointer; transition: all 0.25s ease; text-decoration: none;
       color: white;
     }
     .btn-primary { background: #6c3eff; box-shadow: 0 8px 20px rgba(108,62,255,0.35); }
-    .btn-primary:hover { background: #5a2be0; transform: translateY(-3px); box-shadow: 0 15px 25px -8px rgba(108,62,255,0.55); }
+    .btn-primary:hover { background: #5a2be0; transform: translateY(-3px); }
     .btn-secondary { background: #1fd685; box-shadow: 0 8px 20px rgba(31,214,133,0.3); }
     .btn-secondary:hover { background: #16bc74; transform: translateY(-3px); }
-    .btn small { display: block; font-weight: 400; opacity: 0.85; font-size: 0.75rem; margin-top: 2px; }
+    .btn small { display: block; font-weight: 400; opacity: 0.85; font-size: 0.72rem; margin-top: 2px; }
     .btn-text { text-align: left; }
-    .status { margin-top: 20px; font-size: 0.85rem; color: #94a3b8; }
-    .footer-link { margin-top: 26px; font-size: 0.8rem; color: #7dd3fc; text-decoration: none; }
-    .footer-link:hover { text-decoration: underline; }
+    .status { margin-top: 16px; font-size: 0.82rem; color: #94a3b8; }
     .spinner {
       width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.25);
       border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;
       margin: 0 auto;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .footer-link { display: block; margin-top: 18px; font-size: 0.78rem; color: #7dd3fc; text-decoration: none; }
+    .footer-link:hover { text-decoration: underline; }
+
+    .right h2 { font-size: 1.15rem; font-weight: 800; margin-bottom: 14px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tab {
+      padding: 8px 18px; border-radius: 30px; font-weight: 700; font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.18); cursor: pointer; background: rgba(255,255,255,0.05); color: #cfdfed;
+    }
+    .tab.active.win { background: #6c3eff; border-color: #6c3eff; color: white; }
+    .tab.active.apk { background: #1fd685; border-color: #1fd685; color: #06281a; }
+
+    .steps { display: none; flex-direction: column; gap: 10px; }
+    .steps.active { display: flex; }
+    .step {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 12px 14px;
+    }
+    .stepnum {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.8rem; color: white; background: #6c3eff;
+    }
+    .apk .stepnum { background: #1fd685; color: #06281a; }
+    .step p { font-size: 0.85rem; color: #e2e8f0; }
+    .step p b { color: #fff; }
+
+    .guide-link {
+      display: inline-block; margin-top: 16px; font-size: 0.82rem; color: #7dd3fc; text-decoration: none;
+    }
+    .guide-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="logo">📦</div>
-    <h1>BizCor ERP</h1>
-    <p class="subtitle">Download the latest apps</p>
-    <div class="version-badge" id="versionBadge">Loading latest version…</div>
+  <div class="langToggle" id="langToggle" role="button" aria-label="Toggle Hindi / English" title="भाषा बदलें / Switch language">
+    <span class="glyph" id="glyphHi">अ</span>
+    <span class="glyph" id="glyphEn">A</span>
+  </div>
 
-    <div class="btn-group" id="btnGroup">
-      <div class="spinner"></div>
+  <div class="page">
+    <div class="card left">
+      <img class="logo-img" src="bizcor-logo.png" alt="BizCor">
+      <h1 id="t-title">BizCor ERP</h1>
+      <p class="subtitle" id="t-subtitle">नए ऐप डाउनलोड करें</p>
+      <div class="version-badge" id="versionBadge">…</div>
+
+      <div class="btn-group" id="btnGroup">
+        <div class="spinner"></div>
+      </div>
+
+      <div class="status" id="statusMsg"></div>
+      <a class="footer-link" href="https://github.com/nafybbk/bizcor-releases/releases" target="_blank" rel="noopener" id="t-allReleases">GitHub पर सभी रिलीज़ देखें →</a>
     </div>
 
-    <div class="status" id="statusMsg"></div>
-    <a class="footer-link" href="guide/">📘 Installation Guide (step-by-step)</a>
-    <br>
-    <a class="footer-link" href="https://github.com/nafybbk/bizcor-releases/releases" target="_blank" rel="noopener">View all releases on GitHub →</a>
+    <div class="card right">
+      <h2 id="t-howTitle">इंस्टॉल कैसे करें</h2>
+      <div class="tabs">
+        <div class="tab active win" id="tabWinBtn" onclick="showTab('win')">विंडोज़</div>
+        <div class="tab apk" id="tabApkBtn" onclick="showTab('apk')">एंड्रॉइड</div>
+      </div>
+
+      <div class="steps win active" id="stepsWin"></div>
+      <div class="steps apk" id="stepsApk"></div>
+
+      <a class="guide-link" href="guide/" id="t-fullGuide">📘 पूरी illustrated guide देखें (PDF भी) →</a>
+    </div>
   </div>
 
   <script>
+    const CONTENT = {
+      en: {
+        title: "BizCor ERP",
+        subtitle: "Download the latest apps",
+        allReleases: "View all releases on GitHub →",
+        howTitle: "How to Install",
+        tabWin: "Windows",
+        tabApk: "Android",
+        fullGuide: "📘 See the full illustrated guide (PDF too) →",
+        winName: "Windows Desktop App",
+        apkName: "Android Mobile App",
+        winSteps: [
+          "Click the <b>\"Windows Desktop App\"</b> button above to download it.",
+          "If Windows shows a warning, click <b>\"More info\"</b> then <b>\"Run anyway\"</b>.",
+          "Follow the installer: <b>Next → Install → Finish</b>.",
+          "Open the app and log in.",
+        ],
+        apkSteps: [
+          "On your phone, tap the <b>\"Android Mobile App\"</b> button above.",
+          "Allow <b>\"Install unknown apps\"</b> when asked.",
+          "Tap <b>\"Install\"</b>, then <b>\"Open\"</b>.",
+          "Log in with your mobile number and PIN.",
+        ],
+      },
+      hi: {
+        title: "बिज़कोर ईआरपी",
+        subtitle: "नए ऐप डाउनलोड करें",
+        allReleases: "GitHub पर सभी रिलीज़ देखें →",
+        howTitle: "इंस्टॉल कैसे करें",
+        tabWin: "विंडोज़",
+        tabApk: "एंड्रॉइड",
+        fullGuide: "📘 पूरी illustrated guide देखें (PDF भी) →",
+        winName: "विंडोज़ डेस्कटॉप ऐप",
+        apkName: "एंड्रॉइड मोबाइल ऐप",
+        winSteps: [
+          "ऊपर <b>\"विंडोज़ डेस्कटॉप ऐप\"</b> बटन दबाकर डाउनलोड करें।",
+          "अगर विंडोज़ चेतावनी दिखाए, तो <b>\"More info\"</b> फिर <b>\"Run anyway\"</b> दबाएं।",
+          "इंस्टॉलर को फॉलो करें: <b>Next → Install → Finish</b>।",
+          "ऐप खोलें और लॉगिन करें।",
+        ],
+        apkSteps: [
+          "अपने फ़ोन में ऊपर <b>\"एंड्रॉइड मोबाइल ऐप\"</b> बटन दबाएं।",
+          "पूछे जाने पर <b>\"Install unknown apps\"</b> की इजाज़त दें।",
+          "<b>\"Install\"</b> दबाएं, फिर <b>\"Open\"</b> दबाएं।",
+          "अपना मोबाइल नंबर और पिन डालकर लॉगिन करें।",
+        ],
+      },
+    };
+
+    let lang = "hi";
+
+    function renderSteps(id, steps, cls) {
+      const el = document.getElementById(id);
+      el.innerHTML = steps.map((s, i) =>
+        '<div class="step ' + cls + '"><div class="stepnum">' + (i + 1) + '</div><p>' + s + '</p></div>'
+      ).join("");
+    }
+
+    function applyLang() {
+      const c = CONTENT[lang];
+      document.documentElement.lang = lang;
+      document.getElementById("t-title").textContent = c.title;
+      document.getElementById("t-subtitle").textContent = c.subtitle;
+      document.getElementById("t-allReleases").textContent = c.allReleases;
+      document.getElementById("t-howTitle").textContent = c.howTitle;
+      document.getElementById("t-fullGuide").textContent = c.fullGuide;
+      document.getElementById("tabWinBtn").textContent = c.tabWin;
+      document.getElementById("tabApkBtn").textContent = c.tabApk;
+      renderSteps("stepsWin", c.winSteps, "win");
+      renderSteps("stepsApk", c.apkSteps, "apk");
+      document.getElementById("glyphHi").classList.toggle("active", lang === "hi");
+      document.getElementById("glyphEn").classList.toggle("active", lang === "en");
+      renderButtons();
+    }
+
+    document.getElementById("langToggle").addEventListener("click", () => {
+      lang = lang === "hi" ? "en" : "hi";
+      applyLang();
+    });
+
+    function showTab(name) {
+      document.getElementById('stepsWin').classList.toggle('active', name === 'win');
+      document.getElementById('stepsApk').classList.toggle('active', name === 'apk');
+      document.getElementById('tabWinBtn').classList.toggle('active', name === 'win');
+      document.getElementById('tabApkBtn').classList.toggle('active', name === 'apk');
+    }
+
     const API_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases/latest";
     const versionBadge = document.getElementById("versionBadge");
     const btnGroup = document.getElementById("btnGroup");
     const statusMsg = document.getElementById("statusMsg");
+    let latestRelease = null;
+
+    function renderButtons() {
+      if (!latestRelease) return;
+      const c = CONTENT[lang];
+      const tag = latestRelease.tag_name || "latest";
+      versionBadge.textContent = (lang === "hi" ? "लेटेस्ट वर्शन " : "Latest version ") + tag;
+
+      const exeAsset = (latestRelease.assets || []).find(a => a.name.toLowerCase().endsWith(".exe"));
+      const apkAsset = (latestRelease.assets || []).find(a => a.name.toLowerCase().endsWith(".apk"));
+      btnGroup.innerHTML = "";
+
+      if (exeAsset) {
+        const sizeMb = (exeAsset.size / (1024 * 1024)).toFixed(0);
+        const a = document.createElement("a");
+        a.href = exeAsset.browser_download_url;
+        a.className = "btn btn-primary";
+        a.setAttribute("download", "");
+        a.innerHTML = "💻 <span class='btn-text'>" + c.winName + "<small>" + exeAsset.name + " • " + sizeMb + " MB</small></span>";
+        btnGroup.appendChild(a);
+      }
+      if (apkAsset) {
+        const sizeMb = (apkAsset.size / (1024 * 1024)).toFixed(0);
+        const a = document.createElement("a");
+        a.href = apkAsset.browser_download_url;
+        a.className = "btn btn-secondary";
+        a.setAttribute("download", "");
+        a.innerHTML = "📱 <span class='btn-text'>" + c.apkName + "<small>" + apkAsset.name + " • " + sizeMb + " MB</small></span>";
+        btnGroup.appendChild(a);
+      }
+      if (!exeAsset && !apkAsset) {
+        statusMsg.textContent = lang === "hi" ? "लेटेस्ट रिलीज़ में कोई installer नहीं मिला।" : "No installers found in the latest release.";
+      } else {
+        statusMsg.textContent = "";
+      }
+    }
+
+    applyLang();
 
     fetch(API_URL)
-      .then(r => {
-        if (!r.ok) throw new Error("GitHub API error " + r.status);
-        return r.json();
-      })
-      .then(release => {
-        const tag = release.tag_name || "latest";
-        versionBadge.textContent = "Latest version " + tag;
-
-        const exeAsset = (release.assets || []).find(a => a.name.toLowerCase().endsWith(".exe"));
-        const apkAsset = (release.assets || []).find(a => a.name.toLowerCase().endsWith(".apk"));
-
-        btnGroup.innerHTML = "";
-
-        if (exeAsset) {
-          const sizeMb = (exeAsset.size / (1024 * 1024)).toFixed(0);
-          const a = document.createElement("a");
-          a.href = exeAsset.browser_download_url;
-          a.className = "btn btn-primary";
-          a.setAttribute("download", "");
-          a.innerHTML = "💻 <span class='btn-text'>Windows Desktop App<small>" + exeAsset.name + " • " + sizeMb + " MB</small></span>";
-          btnGroup.appendChild(a);
-        }
-
-        if (apkAsset) {
-          const sizeMb = (apkAsset.size / (1024 * 1024)).toFixed(0);
-          const a = document.createElement("a");
-          a.href = apkAsset.browser_download_url;
-          a.className = "btn btn-secondary";
-          a.setAttribute("download", "");
-          a.innerHTML = "📱 <span class='btn-text'>Android Mobile App<small>" + apkAsset.name + " • " + sizeMb + " MB</small></span>";
-          btnGroup.appendChild(a);
-        }
-
-        if (!exeAsset && !apkAsset) {
-          statusMsg.textContent = "No installers found in the latest release.";
-        }
-      })
+      .then(r => { if (!r.ok) throw new Error("GitHub API error " + r.status); return r.json(); })
+      .then(release => { latestRelease = release; renderButtons(); })
       .catch(err => {
-        versionBadge.textContent = "Could not load version info";
+        versionBadge.textContent = lang === "hi" ? "वर्शन जानकारी लोड नहीं हुई" : "Could not load version info";
         btnGroup.innerHTML = "";
-        statusMsg.textContent = "Please try again shortly, or visit the GitHub releases page below.";
+        statusMsg.textContent = lang === "hi" ? "थोड़ी देर में फिर कोशिश करें, या नीचे GitHub releases page देखें।" : "Please try again shortly, or visit the GitHub releases page below.";
         console.error(err);
       });
   </script>
