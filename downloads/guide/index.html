@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Install Guide — BizCor ERP &amp; Connect | Naewt Group</title>
+  <meta name="description" content="Step-by-step installation guide for BizCor ERP (Windows) and BizCor Connect (Android).">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgb(15, 35, 70), rgb(5, 20, 45));
+      color: #f0f4ff;
+      line-height: 1.55;
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+    }
+    .wrap { max-width: 780px; margin: 0 auto; }
+
+    .top { text-align: center; margin-bottom: 28px; }
+    .top .logo { font-size: 40px; margin-bottom: 8px; }
+    .top h1 {
+      font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFF, #b6e1fc);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 6px;
+    }
+    .top p { color: #cfdfed; font-size: 0.95rem; }
+    .top .back { display: inline-block; margin-top: 14px; color: #7dd3fc; text-decoration: none; font-size: 0.85rem; }
+    .top .back:hover { text-decoration: underline; }
+
+    .actions { display: flex; gap: 10px; justify-content: center; margin: 18px 0 34px; flex-wrap: wrap; }
+    .pdfbtn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 14px; font-weight: 700; font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
+      background: rgba(255,255,255,0.08); color: #f0f4ff; text-decoration: none;
+    }
+    .pdfbtn:hover { background: rgba(255,255,255,0.15); }
+
+    .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 28px; }
+    .tab {
+      padding: 10px 22px; border-radius: 30px; font-weight: 700; font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.18); cursor: pointer; background: rgba(255,255,255,0.05); color: #cfdfed;
+    }
+    .tab.active.exe { background: #6c3eff; border-color: #6c3eff; color: white; }
+    .tab.active.apk { background: #1fd685; border-color: #1fd685; color: #06281a; }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .step {
+      display: grid; grid-template-columns: 64px 1fr; gap: 18px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; padding: 20px; margin-bottom: 16px;
+      align-items: center;
+    }
+    .stepnum {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; color: white;
+      background: #6c3eff;
+    }
+    .apk .stepnum { background: #1fd685; color: #06281a; }
+    .stepart { display: flex; align-items: center; justify-content: center; }
+    .stepbody h3 { font-size: 1.02rem; margin-bottom: 4px; }
+    .stepbody p { color: #cfdfed; font-size: 0.88rem; }
+    .stepbody p.hi { color: #b6e1fc; font-size: 0.85rem; margin-top: 3px; }
+
+    .mock { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 24px rgba(0,0,0,0.35); }
+
+    footer { text-align: center; margin-top: 40px; color: #7a8bab; font-size: 0.8rem; }
+
+    @media print {
+      body { background: white; color: #111; padding: 0; }
+      .top .logo, .actions, .tabs .tab:not(.active) { display: none !important; }
+      .tabs { display: none; }
+      .section { display: block !important; margin-bottom: 40px; }
+      .section h2.platform-title { display: block !important; }
+      .step { break-inside: avoid; background: #f5f7fb; border: 1px solid #ddd; }
+      .stepbody p, .top p { color: #333; }
+      .top h1 { -webkit-text-fill-color: #111; background: none; color: #111; }
+      a.back { display: none; }
+    }
+    .platform-title { display: none; font-size: 1.3rem; font-weight: 800; margin: 30px 0 16px; }
+    @media print { .platform-title { display: block; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="logo">📘</div>
+      <h1>Installation Guide</h1>
+      <p>BizCor ERP (Windows) aur BizCor Connect (Android) install karne ka poora tareeka</p>
+      <a class="back" href="../">← Back to Downloads</a>
+    </div>
+
+    <div class="actions">
+      <button class="pdfbtn" onclick="window.print()">⬇ Download as PDF</button>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active exe" id="tabExeBtn" onclick="showTab('exe')">💻 Windows (EXE)</div>
+      <div class="tab apk" id="tabApkBtn" onclick="showTab('apk')">📱 Android (APK)</div>
+    </div>
+
+    <!-- ===================== EXE ===================== -->
+    <div class="section exe active" id="secExe">
+      <h2 class="platform-title">💻 Windows Desktop App (EXE)</h2>
+
+      <div class="step exe">
+        <div class="stepart">
+          <div class="stepnum">1</div>
+        </div>
+        <div class="stepbody">
+          <h3>Downloads page se "Windows Desktop App" button dabayein</h3>
+          <p>Go to <b>downloads.naewtgroup.com</b> and click the purple "Windows Desktop App" button.</p>
+        </div>
+      </div>
+      <div class="step exe">
+        <div class="stepart">
+          <svg class="mock" width="180" height="90" viewBox="0 0 180 90">
+            <rect width="180" height="90" rx="10" fill="#1b2740"/>
+            <rect x="10" y="10" width="160" height="18" rx="4" fill="#0f172a"/>
+            <circle cx="20" cy="19" r="4" fill="#fbbf24"/>
+            <text x="30" y="23" font-size="9" fill="#e2e8f0" font-family="system-ui">Downloading BizCor-ERP-Setup.exe</text>
+            <rect x="10" y="40" width="160" height="40" rx="6" fill="#0f172a"/>
+            <text x="20" y="58" font-size="8" fill="#fbbf24" font-family="system-ui">⚠ Windows Defender</text>
+            <text x="20" y="70" font-size="7" fill="#94a3b8" font-family="system-ui">"More info" pe click karein</text>
+          </svg>
+        </div>
+        <div class="stepbody">
+          <h3>Agar "Windows protected your PC" dikhe</h3>
+          <p>Click <b>"More info"</b>, then click <b>"Run anyway"</b>. Yeh normal hai — naya software hamesha yeh warning deta hai jab tak uski publisher history nahi banti.</p>
+        </div>
+      </div>
+      <div class="step exe">
+        <div class="stepart">
+          <svg class="mock" width="180" height="90" viewBox="0 0 180 90">
+            <rect width="180" height="90" rx="10" fill="#1b2740"/>
+            <rect x="15" y="12" width="150" height="20" rx="4" fill="#6c3eff"/>
+            <text x="90" y="26" font-size="9" fill="white" text-anchor="middle" font-family="system-ui">BizCor ERP Setup</text>
+            <rect x="15" y="40" width="150" height="10" rx="3" fill="#334155"/>
+            <rect x="15" y="40" width="90" height="10" rx="3" fill="#1fd685"/>
+            <text x="90" y="68" font-size="8" fill="#cfdfed" text-anchor="middle" font-family="system-ui">Installing...</text>
+          </svg>
+        </div>
+        <div class="stepbody">
+          <h3>Installer wizard follow karein</h3>
+          <p><b>Next → Install → Finish.</b> Chahen to install location bhi badal sakte hain. Desktop aur Start Menu shortcut khud ban jayenge.</p>
+        </div>
+      </div>
+      <div class="step exe">
+        <div class="stepart">
+          <svg class="mock" width="180" height="90" viewBox="0 0 180 90">
+            <rect width="180" height="90" rx="10" fill="#1b2740"/>
+            <circle cx="90" cy="35" r="18" fill="#6c3eff"/>
+            <text x="90" y="41" font-size="14" fill="white" text-anchor="middle" font-family="system-ui">₹</text>
+            <text x="90" y="68" font-size="9" fill="#f0f4ff" text-anchor="middle" font-family="system-ui">BizCor ERP</text>
+            <text x="90" y="80" font-size="7" fill="#94a3b8" text-anchor="middle" font-family="system-ui">first launch — local database ban rahi hai</text>
+          </svg>
+        </div>
+        <div class="stepbody">
+          <h3>Pehli baar khulte waqt thoda intezar karein</h3>
+          <p>App apna local database taiyaar karta hai — 30-60 second lag sakte hain. Uske baad login screen khul jayega.</p>
+        </div>
+      </div>
+      <div class="step exe">
+        <div class="stepnum">✓</div>
+        <div class="stepbody">
+          <h3>Login karein aur shuru karein</h3>
+          <p>Naya business register karein ya existing account se login karein. App khud updates check karta rahega — naya version aane par popup dikhega.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== APK ===================== -->
+    <div class="section apk" id="secApk">
+      <h2 class="platform-title">📱 Android Mobile App (APK) — BizCor Connect</h2>
+
+      <div class="step apk">
+        <div class="stepart">
+          <div class="stepnum">1</div>
+        </div>
+        <div class="stepbody">
+          <h3>Phone ke browser mein downloads page kholein</h3>
+          <p>Apne phone ke Chrome browser mein <b>downloads.naewtgroup.com</b> kholein aur green "Android Mobile App" button dabayein.</p>
+        </div>
+      </div>
+      <div class="step apk">
+        <div class="stepart">
+          <svg class="mock" width="140" height="100" viewBox="0 0 140 100">
+            <rect width="140" height="100" rx="14" fill="#0f172a"/>
+            <rect x="10" y="10" width="120" height="80" rx="8" fill="#1b2740"/>
+            <circle cx="70" cy="35" r="12" fill="#1fd685"/>
+            <text x="70" y="40" font-size="12" fill="#06281a" text-anchor="middle">!</text>
+            <text x="70" y="60" font-size="7" fill="#f0f4ff" text-anchor="middle" font-family="system-ui">Install unknown apps</text>
+            <rect x="30" y="70" width="80" height="14" rx="7" fill="#1fd685"/>
+            <text x="70" y="80" font-size="7" fill="#06281a" text-anchor="middle" font-family="system-ui">Allow</text>
+          </svg>
+        </div>
+        <div class="stepbody">
+          <h3>"Install unknown apps" permission maango to Allow karein</h3>
+          <p>Android puchega ke Chrome (ya jo bhi browser use kiya) se apps install karne ki ijazat do — <b>"Allow"</b> ya <b>"Settings"</b> pe jaake iss ek app ke liye on kar dein. Yeh sirf pehli baar hoga.</p>
+        </div>
+      </div>
+      <div class="step apk">
+        <div class="stepart">
+          <svg class="mock" width="140" height="100" viewBox="0 0 140 100">
+            <rect width="140" height="100" rx="14" fill="#0f172a"/>
+            <rect x="10" y="10" width="120" height="80" rx="8" fill="#1b2740"/>
+            <rect x="45" y="22" width="50" height="50" rx="12" fill="#6c3eff"/>
+            <text x="70" y="52" font-size="10" fill="white" text-anchor="middle" font-family="system-ui">BC</text>
+            <rect x="30" y="76" width="80" height="14" rx="7" fill="#6c3eff"/>
+            <text x="70" y="86" font-size="7" fill="white" text-anchor="middle" font-family="system-ui">Install</text>
+          </svg>
+        </div>
+        <div class="stepbody">
+          <h3>"Install" par tap karein</h3>
+          <p>BizCor Connect ka icon aur naam dikhega — <b>"Install"</b> dabayein. Kuch second mein install ho jayega.</p>
+        </div>
+      </div>
+      <div class="step apk">
+        <div class="stepart">
+          <svg class="mock" width="140" height="100" viewBox="0 0 140 100">
+            <rect width="140" height="100" rx="14" fill="#0f172a"/>
+            <rect x="10" y="10" width="120" height="80" rx="8" fill="#1b2740"/>
+            <circle cx="70" cy="40" r="16" fill="#1fd685"/>
+            <text x="70" y="46" font-size="14" fill="#06281a" text-anchor="middle">✓</text>
+            <text x="70" y="70" font-size="8" fill="#f0f4ff" text-anchor="middle" font-family="system-ui">App installed</text>
+          </svg>
+        </div>
+        <div class="stepbody">
+          <h3>"Open" dabayein</h3>
+          <p>Install poora hone par <b>"Open"</b> button dabayein, ya home screen se BizCor Connect icon dhoond kar kholein.</p>
+        </div>
+      </div>
+      <div class="step apk">
+        <div class="stepnum">✓</div>
+        <div class="stepbody">
+          <h3>Mobile number aur PIN se login karein</h3>
+          <p>Apna mobile number daalein — pehli baar ke liye default PIN <b>1234</b> hoga. Login karte hi apna PIN foran badal lein (Profile screen se).</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>BizCor ERP &amp; BizCor Connect — Naewt Group</footer>
+  </div>
+
+  <script>
+    function showTab(name) {
+      document.getElementById('secExe').classList.toggle('active', name === 'exe');
+      document.getElementById('secApk').classList.toggle('active', name === 'apk');
+      document.getElementById('tabExeBtn').classList.toggle('active', name === 'exe');
+      document.getElementById('tabApkBtn').classList.toggle('active', name === 'apk');
+    }
+  </script>
+</body>
+</html>
