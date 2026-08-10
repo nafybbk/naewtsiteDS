@@ -427,17 +427,20 @@
       pendingDownload = null;
     }
     function triggerFileDownload(url) {
-      const a = document.createElement("a");
-      a.href = url;
-      a.setAttribute("download", "");
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      // window.open (not a synthetic <a download> click) — the `download`
+      // attribute is spec-ignored for cross-origin URLs anyway (GitHub's
+      // release CDN is a different origin), and on mobile Chrome a
+      // synthetic click fired after an `await` (i.e. outside the original
+      // tap's direct user-activation) can leave the download stuck at
+      // 100% forever instead of finalizing. Opening a new tab directly at
+      // the file URL, triggered synchronously inside the click handler,
+      // lets Chrome's native download manager take over cleanly.
+      window.open(url, "_blank");
     }
     document.getElementById("dlCancelBtn").addEventListener("click", closeDownloadModal);
     dlModal.addEventListener("click", (e) => { if (e.target === dlModal) closeDownloadModal(); });
 
-    dlSubmitBtn.addEventListener("click", async () => {
+    dlSubmitBtn.addEventListener("click", () => {
       if (!pendingDownload) return;
       const name = document.getElementById("dlName").value.trim();
       const email = document.getElementById("dlEmail").value.trim();
@@ -448,20 +451,24 @@
         dlError.style.display = "block";
         return;
       }
-      dlSubmitBtn.disabled = true;
       const { product, url } = pendingDownload;
-      try {
-        await fetch(API_BASE + "/downloads/lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ product, name, email, phone: phone || undefined }),
-        });
-        counts[product] = (counts[product] || 0) + 1;
-      } catch (e) { /* never block the actual download on a logging failure */ }
+
+      // Fire the download FIRST, synchronously, still inside the tap's own
+      // click handler — no `await` before this line. Any async work (the
+      // lead-capture POST below) happens after, fire-and-forget, so it can
+      // never delay or break the user-activation Chrome needs to treat
+      // this as a real download instead of a stuck/silent one.
       triggerFileDownload(url);
       closeDownloadModal();
-      dlSubmitBtn.disabled = false;
-      renderButtons();
+
+      fetch(API_BASE + "/downloads/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product, name, email, phone: phone || undefined }),
+      }).then(() => {
+        counts[product] = (counts[product] || 0) + 1;
+        renderButtons();
+      }).catch(() => { /* non-critical, the download already happened */ });
     });
 
     function renderSupportBox() {
