@@ -367,6 +367,15 @@
     // BEFORE handing the browser the real file — the URL itself is never
     // hidden (it's always a public GitHub release asset), this is purely a
     // "who's downloading" capture step, not an access control.
+    //
+    // The actual download link is OUR short proxy URL
+    // (/api/downloads/file/:product), not GitHub's raw asset URL — GitHub's
+    // release-asset links are Azure SAS-signed and run 500+ characters;
+    // confirmed live on Android that a fast, fully-completed transfer
+    // through that long URL can still never finalize into the Downloads
+    // folder (Chrome shows 100% forever). Metadata (version/size/filename)
+    // still comes from the direct GitHub API response — only the download
+    // itself is proxied.
     function makeDownloadBtn(cls, icon, name, product, found) {
       const btn = document.createElement("button");
       const c = CONTENT[lang];
@@ -375,7 +384,7 @@
         const sizeMb = (found.asset.size / (1024 * 1024)).toFixed(0);
         btn.className = "btn " + cls;
         btn.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + (found.release.tag_name || "") + " • " + found.asset.name + " • " + sizeMb + " MB</small>" + countLine + "</span>";
-        btn.addEventListener("click", () => openDownloadModal(product, found.asset.browser_download_url));
+        btn.addEventListener("click", () => openDownloadModal(product, API_BASE + "/downloads/file/" + product));
       } else {
         btn.disabled = true;
         btn.className = "btn btn-disabled";
