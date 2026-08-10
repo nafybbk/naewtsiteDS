@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Download BizCor ERP | Naewt Group</title>
   <meta name="description" content="Download the latest BizCor ERP desktop app (Windows) and BizCor Connect mobile app (Android).">
-  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-  <script src="contact-config.js"></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="/downloads/contact-config.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -138,7 +138,7 @@
 
   <div class="page">
     <div class="card left">
-      <img class="logo-img" src="bizcor-logo.png" alt="BizCor">
+      <img class="logo-img" src="/downloads/bizcor-logo.png" alt="BizCor">
       <h1 id="t-title">BizCor ERP</h1>
       <p class="subtitle" id="t-subtitle">नए ऐप डाउनलोड करें</p>
       <div class="btn-group" id="btnGroup">
@@ -163,7 +163,7 @@
       <div class="steps win active" id="stepsWin"></div>
       <div class="steps apk" id="stepsApk"></div>
 
-      <a class="guide-link" href="guide/" id="t-fullGuide">📘 पूरी illustrated guide देखें (PDF भी) →</a>
+      <a class="guide-link" href="/downloads/guide/" id="t-fullGuide">📘 पूरी illustrated guide देखें (PDF भी) →</a>
     </div>
   </div>
 
@@ -271,7 +271,13 @@
     // single "latest release" (which only reflects whichever product was
     // tagged most recently), we scan a page of releases and, per product,
     // take the newest one that actually has a matching asset.
-    const RELEASES_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases?per_page=30";
+    // per_page=100 (GitHub's max) — needed because a release's "created_at"
+    // in the API is inherited from its underlying tag's target commit, not
+    // when it was actually published. A release tagged today against an
+    // older, unchanged commit can rank near the BOTTOM of GitHub's default
+    // sort, so a small per_page risks missing it from this fetch entirely
+    // (client-side re-sorting below only helps for releases we actually got).
+    const RELEASES_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases?per_page=100";
     const CLOUD_URL = "https://erp.naewtgroup.com";
     const btnGroup = document.getElementById("btnGroup");
     const statusMsg = document.getElementById("statusMsg");
@@ -359,7 +365,17 @@
 
     fetch(RELEASES_URL)
       .then(r => { if (!r.ok) throw new Error("GitHub API error " + r.status); return r.json(); })
-      .then(list => { releases = Array.isArray(list) ? list : []; renderButtons(); })
+      .then(list => {
+        // GitHub's list endpoint sorts by the underlying git tag's commit
+        // date, NOT by when the release was actually published — a release
+        // created against an older/unchanged default-branch commit can sort
+        // BELOW older releases even though it's genuinely the newest. Sort
+        // by published_at ourselves so "newest" always means what it says.
+        releases = (Array.isArray(list) ? list : []).slice().sort((a, b) =>
+          new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at)
+        );
+        renderButtons();
+      })
       .catch(err => {
         btnGroup.innerHTML = "";
         statusMsg.textContent = lang === "hi" ? "थोड़ी देर में फिर कोशिश करें, या नीचे GitHub releases page देखें।" : "Please try again shortly, or visit the GitHub releases page below.";
