@@ -6,6 +6,7 @@
   <title>Download BizCor ERP | Naewt Group</title>
   <meta name="description" content="Download the latest BizCor ERP desktop app (Windows) and BizCor Connect mobile app (Android).">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script src="contact-config.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -90,6 +91,14 @@
     .footer-link { display: block; margin-top: 18px; font-size: 0.78rem; color: #7dd3fc; text-decoration: none; }
     .footer-link:hover { text-decoration: underline; }
 
+    .support-box {
+      margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12);
+      text-align: left;
+    }
+    .support-title { font-size: 0.78rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
+    .support-link { display: block; font-size: 0.85rem; color: #e2e8f0; text-decoration: none; padding: 6px 0; }
+    .support-link:hover { color: #7dd3fc; }
+
     .right h2 { font-size: 1.15rem; font-weight: 800; margin-bottom: 14px; }
     .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
     .tab {
@@ -138,6 +147,10 @@
 
       <div class="status" id="statusMsg"></div>
       <a class="footer-link" href="https://github.com/nafybbk/bizcor-releases/releases" target="_blank" rel="noopener" id="t-allReleases">GitHub पर सभी रिलीज़ देखें →</a>
+
+      <div class="support-box" id="supportBox">
+        <div class="support-title" id="t-supportTitle">मदद चाहिए?</div>
+      </div>
     </div>
 
     <div class="card right">
@@ -170,6 +183,7 @@
         krSoon: "Coming soon",
         cloudName: "BizCor ERP Cloud",
         cloudSub: "Open in browser — no install needed",
+        supportTitle: "Need help?",
         winSteps: [
           "Click the <b>\"Windows Desktop App\"</b> button above to download it.",
           "If Windows shows a warning, click <b>\"More info\"</b> then <b>\"Run anyway\"</b>.",
@@ -197,6 +211,7 @@
         krSoon: "जल्द आ रहा है",
         cloudName: "बिज़कोर ईआरपी क्लाउड",
         cloudSub: "ब्राउज़र में खोलें — इंस्टॉल की ज़रूरत नहीं",
+        supportTitle: "मदद चाहिए?",
         winSteps: [
           "ऊपर <b>\"विंडोज़ डेस्कटॉप ऐप\"</b> बटन दबाकर डाउनलोड करें।",
           "अगर विंडोज़ चेतावनी दिखाए, तो <b>\"More info\"</b> फिर <b>\"Run anyway\"</b> दबाएं।",
@@ -229,6 +244,7 @@
       document.getElementById("t-allReleases").textContent = c.allReleases;
       document.getElementById("t-howTitle").textContent = c.howTitle;
       document.getElementById("t-fullGuide").textContent = c.fullGuide;
+      document.getElementById("t-supportTitle").textContent = c.supportTitle;
       document.getElementById("tabWinBtn").textContent = c.tabWin;
       document.getElementById("tabApkBtn").textContent = c.tabApk;
       renderSteps("stepsWin", c.winSteps, "win");
@@ -308,6 +324,36 @@
 
       statusMsg.textContent = (!exeFound && !apkFound) ? (lang === "hi" ? "रिलीज़ जानकारी लोड नहीं हुई।" : "Could not load release info.") : "";
     }
+
+    function renderSupportBox() {
+      const contact = window.SUPPORT_CONTACT || {};
+      const box = document.getElementById("supportBox");
+      // Keep only the title (already rendered by applyLang) — append links after it
+      box.querySelectorAll(".support-link").forEach(el => el.remove());
+      if (contact.whatsapp) {
+        const a = document.createElement("a");
+        a.className = "support-link";
+        a.href = "https://wa.me/" + contact.whatsapp;
+        a.target = "_blank"; a.rel = "noopener";
+        a.textContent = "💬 WhatsApp";
+        box.appendChild(a);
+      }
+      if (contact.email1) {
+        const a = document.createElement("a");
+        a.className = "support-link";
+        a.href = "mailto:" + contact.email1;
+        a.textContent = "✉️ " + contact.email1;
+        box.appendChild(a);
+      }
+      if (contact.email2) {
+        const a = document.createElement("a");
+        a.className = "support-link";
+        a.href = "mailto:" + contact.email2;
+        a.textContent = "✉️ " + contact.email2;
+        box.appendChild(a);
+      }
+    }
+    renderSupportBox();
 
     applyLang();
 
