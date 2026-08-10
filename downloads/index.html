@@ -128,6 +128,35 @@
       display: inline-block; margin-top: 16px; font-size: 0.82rem; color: #7dd3fc; text-decoration: none;
     }
     .guide-link:hover { text-decoration: underline; }
+
+    .dl-count {
+      display: block; font-weight: 600; opacity: 0.9; font-size: 0.7rem; margin-top: 3px;
+    }
+
+    .modalOverlay {
+      display: none; position: fixed; inset: 0; background: rgba(5,10,25,0.7);
+      backdrop-filter: blur(4px); z-index: 50; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modalOverlay.open { display: flex; }
+    .modalBox {
+      background: #0f1f42; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 24px; width: 100%; max-width: 360px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .modalBox h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+    .modalBox p { font-size: 0.82rem; color: #94a3b8; margin-bottom: 16px; }
+    .modalBox input {
+      width: 100%; padding: 11px 14px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06); color: #f0f4ff; font-size: 0.9rem; margin-bottom: 10px;
+      font-family: inherit;
+    }
+    .modalBox input::placeholder { color: #64748b; }
+    .modalBox input:focus { outline: none; border-color: #6c3eff; }
+    .modalActions { display: flex; gap: 10px; margin-top: 6px; }
+    .modalActions button { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; }
+    .modalCancel { background: rgba(255,255,255,0.08); color: #cfdfed; }
+    .modalSubmit { background: #6c3eff; color: white; }
+    .modalSubmit:disabled { opacity: 0.5; cursor: default; }
+    .modalError { font-size: 0.78rem; color: #fca5a5; margin: -4px 0 10px; }
   </style>
 </head>
 <body>
@@ -167,6 +196,21 @@
     </div>
   </div>
 
+  <div class="modalOverlay" id="dlModal">
+    <div class="modalBox">
+      <h3 id="t-modalTitle">Download shuru karne se pehle</h3>
+      <p id="t-modalSub">Bas naam aur email — download turant shuru ho jayega.</p>
+      <input type="text" id="dlName" placeholder="Naam *">
+      <input type="email" id="dlEmail" placeholder="Email *">
+      <input type="tel" id="dlPhone" placeholder="Phone (optional)">
+      <div class="modalError" id="dlError" style="display:none"></div>
+      <div class="modalActions">
+        <button class="modalCancel" id="dlCancelBtn">Cancel</button>
+        <button class="modalSubmit" id="dlSubmitBtn">Download</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const CONTENT = {
       en: {
@@ -184,6 +228,15 @@
         cloudName: "BizCor ERP Cloud",
         cloudSub: "Open in browser — no install needed",
         supportTitle: "Need help?",
+        modalTitle: "Before you download",
+        modalSub: "Just your name and email — the download starts right after.",
+        namePh: "Name *",
+        emailPh: "Email *",
+        phonePh: "Phone (optional)",
+        cancelBtn: "Cancel",
+        downloadBtn: "Download",
+        modalErr: "Name and a valid email are required.",
+        downloadsSuffix: " downloads",
         winSteps: [
           "Click the <b>\"Windows Desktop App\"</b> button above to download it.",
           "If Windows shows a warning, click <b>\"More info\"</b> then <b>\"Run anyway\"</b>.",
@@ -212,6 +265,15 @@
         cloudName: "बिज़कोर ईआरपी क्लाउड",
         cloudSub: "ब्राउज़र में खोलें — इंस्टॉल की ज़रूरत नहीं",
         supportTitle: "मदद चाहिए?",
+        modalTitle: "Download shuru karne se pehle",
+        modalSub: "Bas naam aur email — download turant shuru ho jayega.",
+        namePh: "नाम *",
+        emailPh: "ईमेल *",
+        phonePh: "फ़ोन (वैकल्पिक)",
+        cancelBtn: "रद्द करें",
+        downloadBtn: "डाउनलोड",
+        modalErr: "नाम और सही ईमेल ज़रूरी है।",
+        downloadsSuffix: " डाउनलोड",
         winSteps: [
           "ऊपर <b>\"विंडोज़ डेस्कटॉप ऐप\"</b> बटन दबाकर डाउनलोड करें।",
           "अगर विंडोज़ चेतावनी दिखाए, तो <b>\"More info\"</b> फिर <b>\"Run anyway\"</b> दबाएं।",
@@ -245,6 +307,13 @@
       document.getElementById("t-howTitle").textContent = c.howTitle;
       document.getElementById("t-fullGuide").textContent = c.fullGuide;
       document.getElementById("t-supportTitle").textContent = c.supportTitle;
+      document.getElementById("t-modalTitle").textContent = c.modalTitle;
+      document.getElementById("t-modalSub").textContent = c.modalSub;
+      document.getElementById("dlName").placeholder = c.namePh;
+      document.getElementById("dlEmail").placeholder = c.emailPh;
+      document.getElementById("dlPhone").placeholder = c.phonePh;
+      document.getElementById("dlCancelBtn").textContent = c.cancelBtn;
+      document.getElementById("dlSubmitBtn").textContent = c.downloadBtn;
       document.getElementById("tabWinBtn").textContent = c.tabWin;
       document.getElementById("tabApkBtn").textContent = c.tabApk;
       renderSteps("stepsWin", c.winSteps, "win");
@@ -278,10 +347,12 @@
     // sort, so a small per_page risks missing it from this fetch entirely
     // (client-side re-sorting below only helps for releases we actually got).
     const RELEASES_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases?per_page=100";
+    const API_BASE = "https://erp.naewtgroup.com/api";
     const CLOUD_URL = "https://erp.naewtgroup.com";
     const btnGroup = document.getElementById("btnGroup");
     const statusMsg = document.getElementById("statusMsg");
     let releases = null;
+    let counts = {};
 
     function findLatestAsset(matchFn) {
       if (!releases) return null;
@@ -292,19 +363,25 @@
       return null;
     }
 
-    function makeDownloadBtn(cls, icon, name, found) {
-      const a = document.createElement("a");
+    // A gated download button records name/email/phone via /downloads/lead
+    // BEFORE handing the browser the real file — the URL itself is never
+    // hidden (it's always a public GitHub release asset), this is purely a
+    // "who's downloading" capture step, not an access control.
+    function makeDownloadBtn(cls, icon, name, product, found) {
+      const btn = document.createElement("button");
+      const c = CONTENT[lang];
+      const countLine = counts[product] ? ("<small class='dl-count'>" + counts[product].toLocaleString() + c.downloadsSuffix + "</small>") : "";
       if (found) {
         const sizeMb = (found.asset.size / (1024 * 1024)).toFixed(0);
-        a.href = found.asset.browser_download_url;
-        a.className = "btn " + cls;
-        a.setAttribute("download", "");
-        a.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + (found.release.tag_name || "") + " • " + found.asset.name + " • " + sizeMb + " MB</small></span>";
+        btn.className = "btn " + cls;
+        btn.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + (found.release.tag_name || "") + " • " + found.asset.name + " • " + sizeMb + " MB</small>" + countLine + "</span>";
+        btn.addEventListener("click", () => openDownloadModal(product, found.asset.browser_download_url));
       } else {
-        a.className = "btn btn-disabled";
-        a.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + CONTENT[lang].krSoon + "</small></span>";
+        btn.disabled = true;
+        btn.className = "btn btn-disabled";
+        btn.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + CONTENT[lang].krSoon + "</small></span>";
       }
-      return a;
+      return btn;
     }
 
     function renderButtons() {
@@ -316,9 +393,9 @@
       const apkFound = findLatestAsset(n => n.endsWith(".apk"));
       const krFound = findLatestAsset(n => n.endsWith(".exe") && (n.includes("karigar") || n.includes("slip")));
 
-      btnGroup.appendChild(makeDownloadBtn("btn-primary", "💻", c.winName, exeFound));
-      btnGroup.appendChild(makeDownloadBtn("btn-secondary", "📱", c.apkName, apkFound));
-      btnGroup.appendChild(makeDownloadBtn("btn-tertiary", "🧵", c.krName, krFound));
+      btnGroup.appendChild(makeDownloadBtn("btn-primary", "💻", c.winName, "exe_erp", exeFound));
+      btnGroup.appendChild(makeDownloadBtn("btn-secondary", "📱", c.apkName, "apk_connect", apkFound));
+      btnGroup.appendChild(makeDownloadBtn("btn-tertiary", "🧵", c.krName, "kr_exe", krFound));
 
       const cloudBtn = document.createElement("a");
       cloudBtn.href = CLOUD_URL;
@@ -330,6 +407,62 @@
 
       statusMsg.textContent = (!exeFound && !apkFound) ? (lang === "hi" ? "रिलीज़ जानकारी लोड नहीं हुई।" : "Could not load release info.") : "";
     }
+
+    // ── Download-gate modal ──
+    const dlModal = document.getElementById("dlModal");
+    const dlError = document.getElementById("dlError");
+    const dlSubmitBtn = document.getElementById("dlSubmitBtn");
+    let pendingDownload = null; // { product, url }
+
+    function openDownloadModal(product, url) {
+      pendingDownload = { product, url };
+      document.getElementById("dlName").value = "";
+      document.getElementById("dlEmail").value = "";
+      document.getElementById("dlPhone").value = "";
+      dlError.style.display = "none";
+      dlModal.classList.add("open");
+    }
+    function closeDownloadModal() {
+      dlModal.classList.remove("open");
+      pendingDownload = null;
+    }
+    function triggerFileDownload(url) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.setAttribute("download", "");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    document.getElementById("dlCancelBtn").addEventListener("click", closeDownloadModal);
+    dlModal.addEventListener("click", (e) => { if (e.target === dlModal) closeDownloadModal(); });
+
+    dlSubmitBtn.addEventListener("click", async () => {
+      if (!pendingDownload) return;
+      const name = document.getElementById("dlName").value.trim();
+      const email = document.getElementById("dlEmail").value.trim();
+      const phone = document.getElementById("dlPhone").value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!name || !emailOk) {
+        dlError.textContent = CONTENT[lang].modalErr;
+        dlError.style.display = "block";
+        return;
+      }
+      dlSubmitBtn.disabled = true;
+      const { product, url } = pendingDownload;
+      try {
+        await fetch(API_BASE + "/downloads/lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ product, name, email, phone: phone || undefined }),
+        });
+        counts[product] = (counts[product] || 0) + 1;
+      } catch (e) { /* never block the actual download on a logging failure */ }
+      triggerFileDownload(url);
+      closeDownloadModal();
+      dlSubmitBtn.disabled = false;
+      renderButtons();
+    });
 
     function renderSupportBox() {
       const contact = window.SUPPORT_CONTACT || {};
@@ -362,6 +495,11 @@
     renderSupportBox();
 
     applyLang();
+
+    fetch(API_BASE + "/downloads/counts")
+      .then(r => r.ok ? r.json() : {})
+      .then(c => { counts = c || {}; renderButtons(); })
+      .catch(() => {});
 
     fetch(RELEASES_URL)
       .then(r => { if (!r.ok) throw new Error("GitHub API error " + r.status); return r.json(); })
