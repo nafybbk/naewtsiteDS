@@ -73,6 +73,11 @@
     .btn-primary:hover { background: #5a2be0; transform: translateY(-3px); }
     .btn-secondary { background: #1fd685; box-shadow: 0 8px 20px rgba(31,214,133,0.3); }
     .btn-secondary:hover { background: #16bc74; transform: translateY(-3px); }
+    .btn-tertiary { background: #ff9f43; box-shadow: 0 8px 20px rgba(255,159,67,0.3); }
+    .btn-tertiary:hover { background: #e8890f; transform: translateY(-3px); }
+    .btn-cloud { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.3); box-shadow: none; }
+    .btn-cloud:hover { background: rgba(255,255,255,0.18); transform: translateY(-3px); }
+    .btn-disabled { background: rgba(255,255,255,0.05); border: 1.5px dashed rgba(255,255,255,0.2); box-shadow: none; cursor: default; opacity: 0.6; }
     .btn small { display: block; font-weight: 400; opacity: 0.85; font-size: 0.72rem; margin-top: 2px; }
     .btn-text { text-align: left; }
     .status { margin-top: 16px; font-size: 0.82rem; color: #94a3b8; }
@@ -127,8 +132,6 @@
       <img class="logo-img" src="bizcor-logo.png" alt="BizCor">
       <h1 id="t-title">BizCor ERP</h1>
       <p class="subtitle" id="t-subtitle">नए ऐप डाउनलोड करें</p>
-      <div class="version-badge" id="versionBadge">…</div>
-
       <div class="btn-group" id="btnGroup">
         <div class="spinner"></div>
       </div>
@@ -161,8 +164,12 @@
         tabWin: "Windows",
         tabApk: "Android",
         fullGuide: "📘 See the full illustrated guide (PDF too) →",
-        winName: "Windows Desktop App",
-        apkName: "Android Mobile App",
+        winName: "BizCor ERP — Desktop App",
+        apkName: "BizCor Connect — Mobile App",
+        krName: "Karigar Slip Register — Desktop App",
+        krSoon: "Coming soon",
+        cloudName: "BizCor ERP Cloud",
+        cloudSub: "Open in browser — no install needed",
         winSteps: [
           "Click the <b>\"Windows Desktop App\"</b> button above to download it.",
           "If Windows shows a warning, click <b>\"More info\"</b> then <b>\"Run anyway\"</b>.",
@@ -184,8 +191,12 @@
         tabWin: "विंडोज़",
         tabApk: "एंड्रॉइड",
         fullGuide: "📘 पूरी illustrated guide देखें (PDF भी) →",
-        winName: "विंडोज़ डेस्कटॉप ऐप",
-        apkName: "एंड्रॉइड मोबाइल ऐप",
+        winName: "बिज़कोर ईआरपी — डेस्कटॉप ऐप",
+        apkName: "बिज़कोर कनेक्ट — मोबाइल ऐप",
+        krName: "करीगर स्लिप रजिस्टर — डेस्कटॉप ऐप",
+        krSoon: "जल्द आ रहा है",
+        cloudName: "बिज़कोर ईआरपी क्लाउड",
+        cloudSub: "ब्राउज़र में खोलें — इंस्टॉल की ज़रूरत नहीं",
         winSteps: [
           "ऊपर <b>\"विंडोज़ डेस्कटॉप ऐप\"</b> बटन दबाकर डाउनलोड करें।",
           "अगर विंडोज़ चेतावनी दिखाए, तो <b>\"More info\"</b> फिर <b>\"Run anyway\"</b> दबाएं।",
@@ -239,54 +250,71 @@
       document.getElementById('tabApkBtn').classList.toggle('active', name === 'apk');
     }
 
-    const API_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases/latest";
-    const versionBadge = document.getElementById("versionBadge");
+    // Each product versions independently (KR releases on its own schedule,
+    // separate from BizCor ERP+Connect) — so instead of trusting GitHub's
+    // single "latest release" (which only reflects whichever product was
+    // tagged most recently), we scan a page of releases and, per product,
+    // take the newest one that actually has a matching asset.
+    const RELEASES_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases?per_page=30";
+    const CLOUD_URL = "https://erp.naewtgroup.com";
     const btnGroup = document.getElementById("btnGroup");
     const statusMsg = document.getElementById("statusMsg");
-    let latestRelease = null;
+    let releases = null;
+
+    function findLatestAsset(matchFn) {
+      if (!releases) return null;
+      for (const rel of releases) {
+        const asset = (rel.assets || []).find(a => matchFn(a.name.toLowerCase()));
+        if (asset) return { release: rel, asset };
+      }
+      return null;
+    }
+
+    function makeDownloadBtn(cls, icon, name, found) {
+      const a = document.createElement("a");
+      if (found) {
+        const sizeMb = (found.asset.size / (1024 * 1024)).toFixed(0);
+        a.href = found.asset.browser_download_url;
+        a.className = "btn " + cls;
+        a.setAttribute("download", "");
+        a.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + (found.release.tag_name || "") + " • " + found.asset.name + " • " + sizeMb + " MB</small></span>";
+      } else {
+        a.className = "btn btn-disabled";
+        a.innerHTML = icon + " <span class='btn-text'>" + name + "<small>" + CONTENT[lang].krSoon + "</small></span>";
+      }
+      return a;
+    }
 
     function renderButtons() {
-      if (!latestRelease) return;
+      if (!releases) return; // still loading — keep the spinner up
       const c = CONTENT[lang];
-      const tag = latestRelease.tag_name || "latest";
-      versionBadge.textContent = (lang === "hi" ? "लेटेस्ट वर्शन " : "Latest version ") + tag;
-
-      const exeAsset = (latestRelease.assets || []).find(a => a.name.toLowerCase().endsWith(".exe"));
-      const apkAsset = (latestRelease.assets || []).find(a => a.name.toLowerCase().endsWith(".apk"));
       btnGroup.innerHTML = "";
 
-      if (exeAsset) {
-        const sizeMb = (exeAsset.size / (1024 * 1024)).toFixed(0);
-        const a = document.createElement("a");
-        a.href = exeAsset.browser_download_url;
-        a.className = "btn btn-primary";
-        a.setAttribute("download", "");
-        a.innerHTML = "💻 <span class='btn-text'>" + c.winName + "<small>" + exeAsset.name + " • " + sizeMb + " MB</small></span>";
-        btnGroup.appendChild(a);
-      }
-      if (apkAsset) {
-        const sizeMb = (apkAsset.size / (1024 * 1024)).toFixed(0);
-        const a = document.createElement("a");
-        a.href = apkAsset.browser_download_url;
-        a.className = "btn btn-secondary";
-        a.setAttribute("download", "");
-        a.innerHTML = "📱 <span class='btn-text'>" + c.apkName + "<small>" + apkAsset.name + " • " + sizeMb + " MB</small></span>";
-        btnGroup.appendChild(a);
-      }
-      if (!exeAsset && !apkAsset) {
-        statusMsg.textContent = lang === "hi" ? "लेटेस्ट रिलीज़ में कोई installer नहीं मिला।" : "No installers found in the latest release.";
-      } else {
-        statusMsg.textContent = "";
-      }
+      const exeFound = findLatestAsset(n => n.endsWith(".exe") && n.includes("bizcor-erp"));
+      const apkFound = findLatestAsset(n => n.endsWith(".apk"));
+      const krFound = findLatestAsset(n => n.endsWith(".exe") && (n.includes("karigar") || n.includes("slip")));
+
+      btnGroup.appendChild(makeDownloadBtn("btn-primary", "💻", c.winName, exeFound));
+      btnGroup.appendChild(makeDownloadBtn("btn-secondary", "📱", c.apkName, apkFound));
+      btnGroup.appendChild(makeDownloadBtn("btn-tertiary", "🧵", c.krName, krFound));
+
+      const cloudBtn = document.createElement("a");
+      cloudBtn.href = CLOUD_URL;
+      cloudBtn.target = "_blank";
+      cloudBtn.rel = "noopener";
+      cloudBtn.className = "btn btn-cloud";
+      cloudBtn.innerHTML = "☁️ <span class='btn-text'>" + c.cloudName + "<small>" + c.cloudSub + "</small></span>";
+      btnGroup.appendChild(cloudBtn);
+
+      statusMsg.textContent = (!exeFound && !apkFound) ? (lang === "hi" ? "रिलीज़ जानकारी लोड नहीं हुई।" : "Could not load release info.") : "";
     }
 
     applyLang();
 
-    fetch(API_URL)
+    fetch(RELEASES_URL)
       .then(r => { if (!r.ok) throw new Error("GitHub API error " + r.status); return r.json(); })
-      .then(release => { latestRelease = release; renderButtons(); })
+      .then(list => { releases = Array.isArray(list) ? list : []; renderButtons(); })
       .catch(err => {
-        versionBadge.textContent = lang === "hi" ? "वर्शन जानकारी लोड नहीं हुई" : "Could not load version info";
         btnGroup.innerHTML = "";
         statusMsg.textContent = lang === "hi" ? "थोड़ी देर में फिर कोशिश करें, या नीचे GitHub releases page देखें।" : "Please try again shortly, or visit the GitHub releases page below.";
         console.error(err);
