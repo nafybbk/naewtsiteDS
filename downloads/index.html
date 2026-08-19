@@ -346,7 +346,18 @@
     // older, unchanged commit can rank near the BOTTOM of GitHub's default
     // sort, so a small per_page risks missing it from this fetch entirely
     // (client-side re-sorting below only helps for releases we actually got).
-    const RELEASES_URL = "https://api.github.com/repos/nafybbk/bizcor-releases/releases?per_page=100";
+    // KR (Karigar Slip Register) moved to its own repo (`karigar-releases`,
+    // created 2026-08-17) — before that everything shared `bizcor-releases`.
+    // Fetch both and merge, or KR's button silently freezes on whatever
+    // release last happened to be in bizcor-releases (confirmed live
+    // 2026-08-19: stuck on v1.2.3 while v1.2.4/v1.2.5 had long since shipped
+    // to karigar-releases). karigar-releases must stay a PUBLIC repo for
+    // this client-side fetch to work without embedding a secret token in
+    // browser-visible JS.
+    const RELEASES_URLS = [
+      "https://api.github.com/repos/nafybbk/bizcor-releases/releases?per_page=100",
+      "https://api.github.com/repos/nafybbk/karigar-releases/releases?per_page=100",
+    ];
     const API_BASE = "https://erp.naewtgroup.com/api";
     const CLOUD_URL = "https://erp.naewtgroup.com";
     const btnGroup = document.getElementById("btnGroup");
@@ -517,15 +528,17 @@
       .then(c => { counts = c || {}; renderButtons(); })
       .catch(() => {});
 
-    fetch(RELEASES_URL)
-      .then(r => { if (!r.ok) throw new Error("GitHub API error " + r.status); return r.json(); })
-      .then(list => {
+    Promise.all(RELEASES_URLS.map(u =>
+      fetch(u).then(r => r.ok ? r.json() : []).catch(() => [])
+    ))
+      .then(lists => {
+        const merged = lists.flat().filter(Boolean);
         // GitHub's list endpoint sorts by the underlying git tag's commit
         // date, NOT by when the release was actually published — a release
         // created against an older/unchanged default-branch commit can sort
         // BELOW older releases even though it's genuinely the newest. Sort
         // by published_at ourselves so "newest" always means what it says.
-        releases = (Array.isArray(list) ? list : []).slice().sort((a, b) =>
+        releases = merged.sort((a, b) =>
           new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at)
         );
         renderButtons();
